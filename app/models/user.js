@@ -5,7 +5,7 @@
 
 const mongoose = require('mongoose');
 const userPlugin = require('mongoose-user');
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 /**
  * User schema
