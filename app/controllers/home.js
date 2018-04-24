@@ -9,13 +9,14 @@ exports.index = function (req, res) {
   });
 };
 
-const mongoose = require('mongoose');
-
-const Crypto = mongoose.model('Crypto');
-
-let cryp = new Crypto({ currency:'BTC', euro_value:1 });
-
-cryp.save(function (err) {
-    if (err) console.error(err);
-    // saved!
-});
+//
+// const mongoose = require('mongoose');
+//
+// const Crypto = mongoose.model('Crypto');
+//
+// let cryp = new Crypto({ currency:'BTC', euro_value:1 });
+//
+// cryp.save(function (err) {
+//     if (err) console.error(err);
+//     // saved!
+// });

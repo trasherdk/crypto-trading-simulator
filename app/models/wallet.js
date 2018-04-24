@@ -12,7 +12,10 @@ const Schema = mongoose.Schema;
 const WalletSchema = new Schema({
   currency: { type: String, default: 'euros' },
   currency_qty: { type: Schema.Types.Number, default: 0 },
-  crypto_currency: [{ type: Schema.Types.ObjectId, ref: 'Crypto' }]
+  cryptos: [{
+    currency:{ type: String, default: '' },
+    currency_qty: { type: Schema.Types.Number, default: 0 }
+  }]
 });
 
 /**
