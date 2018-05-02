@@ -3,44 +3,46 @@ extends layouts/default
 block content
   script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js")
   div.row
-    div.col-sm
-      div.card.bg-dark.text-white
-        div.card-body
-          h2.card-title BTC-EUR
-          div.card-text
-            div
-              canvas#btc-eur
-              script.
-                var ctx = document.getElementById("btc-eur");
-                var myChart = new Chart(ctx, {
-                  type: 'line',
-                  data: {
-                    labels: ["Red"],
-                    datasets: [{
-                      label: '# of Votes',
-                      data: [12, 19, 3, 5, 2, 3],
-                      backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)'
-                      ],
-                      borderColor: [
-                        'rgba(255,99,132,1)'
-                      ],
-                      borderWidth: 1
-                    }]
-                  },
-                  options: {
-                    scales: {
-                      yAxes: [{
-                        ticks: {
-                          beginAtZero: true
-                        }
+    each currency in data
+      div.col-sm
+        div.card.bg-dark.text-white
+          div.card-body
+            h2.m-0.card-title= currency.pair
+            div.card-text
+              div
+                canvas#btc-eur
+                script.
+                  var ctx = document.getElementById("btc-eur");
+                  var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                      labels: ["Red"],
+                      datasets: [{
+                        label: '# of Votes',
+                        data: [12, 19, 3, 5, 2, 3],
+                        backgroundColor: [
+                          'rgba(255, 99, 132, 0.2)'
+                        ],
+                        borderColor: [
+                          'rgba(255,99,132,1)'
+                        ],
+                        borderWidth: 1
                       }]
+                    },
+                    options: {
+                      scales: {
+                        yAxes: [{
+                          ticks: {
+                            beginAtZero: true
+                          }
+                        }]
+                      }
                     }
-                  }
-                });
-            div.row
-              div.col-sm.d-flex
-                h3.m-0.align-self-center 8 000,00 €
-              div.col-sm.text-sm-right.mt-3.mt-sm-0
-                a(href="/market/btc-eur" target="_self")
-                  button.btn.btn-success.btn-lg(type="button") Acheter/Vendre
+                  });
+              div.row
+                div.col-sm.d-flex
+                  h3.m-0.align-self-center 8 000,00 €
+                div.col-sm.text-sm-right.mt-3.mt-sm-0
+                  a(href="/market/btc-eur" target="_self")
+                    button.btn.btn-success.btn-lg(type="button") Acheter/Vendre
+          div.card-footer.text-muted.text-right Mise à jour : Love today
