@@ -1,5 +1,31 @@
 extends layouts/default
 block content
-    div.card
+    div.card.bg-dark.text-white
         div.card-body
-            h5.card-title coucou
+            h5.card-title S'enregistrer
+            form
+                div.form-group
+                    label(for='pseudo') Pseudo
+                    input.form-control#pseudo(
+                    type='text'
+                    name='pseudo'
+                    placeholder='Jean'
+                    )
+                    small.form-text.text-muted Ce pseudo doit être unique
+                div.form-group
+                    label(for='pass') Mot de passe
+                    input.form-control#pass(
+                    type='password'
+                    name='pass'
+                    placeholder='••••••••••••••••••'
+                    )
+                    small.form-text.text-muted Ne divulgez jamais votre mot de passe
+                div.form-group
+                    label(for='pass') Mot de passe (confirmation)
+                    input.form-control#passConfirm(
+                    type='password'
+                    name='passConfirm'
+                    placeholder='••••••••••••••••••'
+                    )
+                    small.form-text.text-muted Tapez à nouveau votre mot de passe
+                button.btn.btn-light S'enregistrer
