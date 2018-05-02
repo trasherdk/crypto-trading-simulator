@@ -2,7 +2,7 @@ extends layouts/default
 block content
     div.card.bg-dark.text-white
         div.card-body
-            h5.card-title S'enregistrer
+            h5.card-title Se connecter
             form
                 div.form-group
                     label(for='pseudo') Pseudo
@@ -11,7 +11,7 @@ block content
                     name='pseudo'
                     placeholder='Jean'
                     )
-                    small.form-text.text-muted Ce pseudo doit être unique
+                    small.form-text.text-muted Votre pseudo de connection
                 div.form-group
                     label(for='pass') Mot de passe
                     input.form-control#pass(
@@ -20,14 +20,6 @@ block content
                     placeholder='••••••••••••••••••'
                     )
                     small.form-text.text-muted Ne divulgez jamais votre mot de passe
-                div.form-group
-                    label(for='pass') Mot de passe (confirmation)
-                    input.form-control#passConfirm(
-                    type='password'
-                    name='passConfirm'
-                    placeholder='••••••••••••••••••'
-                    )
-                    small.form-text.text-muted Tapez à nouveau votre mot de passe
-                button.btn.btn-light S'enregistrer
+                button.btn.btn-light Se connecter
                 button.btn.btn-link
-                    a(href='./login') Se connecter
+                    a(href='./sign-up') S'inscrire
