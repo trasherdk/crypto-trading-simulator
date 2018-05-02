@@ -20,7 +20,7 @@ module.exports = function (app, passport) {
   app.get('/', home.index);
   app.get('/market', market.index);
   app.get('/wallet', wallet.index);
-  app.get('/signUp', signUp.index);
+  app.get('/sign-up', signUp.index);
   app.get('/login', login.index);
 
   /**
