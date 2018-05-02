@@ -1,1 +1,3 @@
-exports.index = (req, res) => {};
+exports.index = (req, res) => {
+  res.render('market')
+};

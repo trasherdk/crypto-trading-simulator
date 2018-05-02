@@ -5,6 +5,8 @@
  */
 
 const home = require('../app/controllers/home');
+const market = require('../app/controllers/market');
+const wallet = require('../app/controllers/wallet');
 
 /**
  * Expose
@@ -13,6 +15,8 @@ const home = require('../app/controllers/home');
 module.exports = function (app, passport) {
 
   app.get('/', home.index);
+  app.get('/market', market.index);
+  app.get('/wallet', wallet.index);
 
   /**
    * Error handling
