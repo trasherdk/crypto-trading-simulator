@@ -2,7 +2,7 @@ extends layouts/default
 block content
     div.card.bg-dark.text-white
         div.card-body
-            h5.card-title Se connecter
+            h5.card-title Mon profil (modifier mes données)
             form
                 div.form-group
                     label(for='pseudo') Pseudo
@@ -11,7 +11,7 @@ block content
                     name='pseudo'
                     placeholder='Jean'
                     )
-                    small.form-text.text-muted Votre pseudo de connection
+                    small.form-text.text-muted Votre pseudo de connexion
                 div.form-group
                     label(for='pass') Mot de passe
                     input.form-control#pass(
@@ -19,7 +19,15 @@ block content
                     name='pass'
                     placeholder='••••••••••••••••••'
                     )
-                    small.form-text.text-muted Ne divulgez jamais votre mot de passe
-                button.btn.btn-light Se connecter
+                    small.form-text.text-muted Ne divulgez jamais votre nouveau mot de passe
+                div.form-group
+                    label(for='pass') Mot de passe (confirmation)
+                    input.form-control#passConfirm(
+                    type='password'
+                    name='passConfirm'
+                    placeholder='••••••••••••••••••'
+                    )
+                    small.form-text.text-muted Tapez à nouveau votre nouveau mot de passe
+                button.btn.btn-light Modifier mes données
                 button.btn.btn-link
                     a(href='./sign-up') S'inscrire
