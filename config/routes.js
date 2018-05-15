@@ -8,6 +8,8 @@ const home = require('../app/controllers/home');
 const market = require('../app/controllers/market');
 const wallet = require('../app/controllers/wallet');
 const signUp = require('../app/controllers/signUp');
+const login = require('../app/controllers/login');
+const profile = require('../app/controllers/profile');
 
 
 /**
@@ -19,7 +21,9 @@ module.exports = function (app, passport) {
   app.get('/', home.index);
   app.get('/market', market.index);
   app.get('/wallet', wallet.index);
-  app.get('/signUp', signUp.index);
+  app.get('/sign-up', signUp.index);
+  app.get('/login', login.index);
+  app.get('/profile', profile.index);
 
   /**
    * Error handling

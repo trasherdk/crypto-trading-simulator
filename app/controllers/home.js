@@ -18,6 +18,12 @@ exports.index = function (req, res) {
 // const User = mongoose.model('User');
 // const Wallet = mongoose.model('Wallet');
 //
+//
+// User.findById('5ae97ab64e39f2434c11329e', function (err, user) {
+//     console.log(user);
+// });
+
+
 // let trade = new Trading({
 //     src_currency:'euros',
 //     src_value:10,
@@ -41,7 +47,6 @@ exports.index = function (req, res) {
 // });
 // user.save();
 //
-// User.update(
-//     { _id: user._id },
-//     { $push: { trading: trade } }
-// );
+
+
+
