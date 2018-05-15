@@ -73,6 +73,9 @@ var myChart = new Chart(ctx, {
         }]
     },
     options: {
+    legend: {
+        display: false
+    },
         scales: {
             yAxes: [{
                 ticks: {
@@ -85,7 +88,7 @@ var myChart = new Chart(ctx, {
       data.push({
         pair: `${crypto}-EUR`,
         id: `${crypto}EUR`,
-        price,
+        price: `${price} €`,
         chart: chartScript,
         lastUpdate: moment
           .unix(lastUpdate)

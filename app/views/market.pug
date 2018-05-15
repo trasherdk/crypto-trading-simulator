@@ -4,12 +4,12 @@ block content
   script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js")
   div.row
     each currency in data
-      div.col-sm-4
+      div.col-sm-12.mb-4.col-md-6.col-lg-4
         div.card.bg-dark.text-white
           div.card-body
             h2.m-0.card-title= currency.pair
             div.card-text
-              div
+              div.my-2
                 canvas(id=currency.id)
                 script= currency.chart
               div.row
@@ -17,5 +17,5 @@ block content
                   h3.m-0.align-self-center= currency.price
                 div.col-sm.text-sm-right.mt-3.mt-sm-0
                   a(href="/market/btc-eur" target="_self")
-                    button.btn.btn-success.btn-lg(type="button") Acheter/Vendre
+                    button.btn.btn-success.btn-md(type="button") Acheter/Vendre
           div.card-footer.text-muted.text-right Mise à jour : #{currency.lastUpdate}
