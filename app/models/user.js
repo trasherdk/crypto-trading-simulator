@@ -15,7 +15,8 @@ const UserSchema = new Schema({
   email: { type: String, default: '' },
   hashed_password: { type: String, default: '' },
   salt: { type: String, default: '' },
-  wallet: { type: Schema.Types.ObjectId, ref: 'Wallet' }
+  wallet: { type: Schema.Types.ObjectId, ref: 'Wallet' },
+  trading: [{ type: Schema.Types.ObjectId, ref: 'Trading' }]
 });
 
 /**

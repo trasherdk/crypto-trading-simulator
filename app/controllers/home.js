@@ -9,14 +9,44 @@ exports.index = function (req, res) {
   });
 };
 
+
+// TEST MONGOOSE (laisser en commentaire SVP)
 //
 // const mongoose = require('mongoose');
 //
-// const Crypto = mongoose.model('Crypto');
+// const Trading = mongoose.model('Trading');
+// const User = mongoose.model('User');
+// const Wallet = mongoose.model('Wallet');
 //
-// let cryp = new Crypto({ currency:'BTC', euro_value:1 });
 //
-// cryp.save(function (err) {
-//     if (err) console.error(err);
-//     // saved!
+// User.findById('5ae97ab64e39f2434c11329e', function (err, user) {
+//     console.log(user);
 // });
+
+
+// let trade = new Trading({
+//     src_currency:'euros',
+//     src_value:10,
+//     dst_currency:'euros',
+//     dst_value:20
+// });
+// trade.save();
+//
+// let wallet = new Wallet({
+//     currency: 'euros',
+//     currency_qty: 0
+// });
+// wallet.save();
+//
+// let user = new User({
+//     name: 'nathan',
+//     email: 'nathan@mail.com',
+//     hashed_password: 'e',
+//     salt: 'e',
+//     wallet: wallet
+// });
+// user.save();
+//
+
+
+
