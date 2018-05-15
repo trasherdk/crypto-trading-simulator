@@ -5,8 +5,8 @@ const User = mongoose.model('User');
 
 exports.index = (req, res) => {
     User.findById(req.session.id, function (err, user) {
-        let tradeList = user.trading;
-        res.send(tradeList);
+        let tradeList = { tradeList : user.trading };
+        res.render('trading',tradeList);
     });
 };
 
@@ -22,10 +22,16 @@ exports.add = (req, res) => {
         if (err) console.error(err);
     });
 
-    User.update(
-        { _id: req.session.id },
-        { $push: { trading: trade } }
+    User.findByIdAndUpdate(req.session.id,
+        { $push: { trading:trade } }
     );
 
     res.send('Trade add');
+};
+
+
+exports.drop = function (req, res) {
+    Trading.findByIdAndRemove(req.body.id, function () {
+        res.send('trade deleted');
+    });
 };
