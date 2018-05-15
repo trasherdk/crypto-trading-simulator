@@ -95,6 +95,11 @@ var myChart = new Chart(ctx, {
           .startOf("minute")
           .fromNow()
       });
+      data.sort((a, b) => {
+        const indexA = cryptos.indexOf(a.pair.substr(0, 3));
+        const indexB = cryptos.indexOf(b.pair.substr(0, 3));
+        return (indexA === indexB) ? 0 : (indexA < indexB) ? -1 : 1
+      });
     })
   ).then(() => {
     res.render("market", {
