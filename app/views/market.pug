@@ -1,15 +1,18 @@
 extends layouts/default
+block head
+  - var title = 'Market - CTS';
+  include includes/head
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js")
 
 block content
-  script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js")
-  div.row
+  div.row.px-3
     each currency in data
-      div.col-sm-12.mb-4.col-md-6.col-lg-4
+      div.col-sm-12.col-md-6.col-lg-4.p-4
         div.card.bg-dark.text-white
           div.card-body
             h2.m-0.card-title= currency.pair
             div.card-text
-              div.my-2
+              div.my-3
                 canvas(id=currency.id)
                 script= currency.chart
               div.row
