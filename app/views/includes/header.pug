@@ -1,6 +1,11 @@
-.header.clearfix
-  nav
-    ul.nav.nav-pills.pull-right
-      li.active(role='presentation')
-        a(href='/') Home
-  h3.text-muted My app
+.header.border-0
+  nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+    a.navbar-brand(href="#") CTS
+    button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation")
+      span.navbar-toggler-icon
+    #navbarNav.collapse.navbar-collapse
+      ul.navbar-nav
+        li.nav-item
+          a.nav-link(href="/market") Market
+        li.nav-item
+          a.nav-link(href="/wallet") Wallet
