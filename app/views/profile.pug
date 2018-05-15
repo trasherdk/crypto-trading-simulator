@@ -13,15 +13,23 @@ block content
                     )
                     small.form-text.text-muted Votre pseudo de connexion
                 div.form-group
-                    label(for='pass') Mot de passe
+                    label(for='lastPass') Ancien mot de passe
+                    input.form-control#lastPass(
+                    type='password'
+                    name='lastPass'
+                    placeholder='••••••••••••••••••'
+                    )
+                    small.form-text.text-muted Ne divulgez jamais votre mot de passe (même l'ancien)
+                div.form-group
+                    label(for='pass') Nouveau mot de passe
                     input.form-control#pass(
                     type='password'
                     name='pass'
                     placeholder='••••••••••••••••••'
                     )
-                    small.form-text.text-muted Ne divulgez jamais votre nouveau mot de passe
+                    small.form-text.text-muted Ne divulguez jamais votre nouveau mot de passe
                 div.form-group
-                    label(for='pass') Mot de passe (confirmation)
+                    label(for='pass') Nouveau mot de passe (confirmation)
                     input.form-control#passConfirm(
                     type='password'
                     name='passConfirm'
@@ -29,5 +37,3 @@ block content
                     )
                     small.form-text.text-muted Tapez à nouveau votre nouveau mot de passe
                 button.btn.btn-light Modifier mes données
-                button.btn.btn-link
-                    a(href='./sign-up') S'inscrire
