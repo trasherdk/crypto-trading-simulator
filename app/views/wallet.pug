@@ -1,5 +1,8 @@
 extends layouts/default
-block page-header
+block head
+  - var title = 'Wallet - CTS';
+  include includes/head
+
 block content
   div.row.justify-content-md-center.mt-5
     div.col-4
