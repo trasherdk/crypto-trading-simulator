@@ -10,6 +10,7 @@ const wallet = require('../app/controllers/wallet');
 const signUp = require('../app/controllers/signUp');
 const login = require('../app/controllers/login');
 const profile = require('../app/controllers/profile');
+const historic = require('../app/controllers/historic');
 
 
 /**
@@ -21,9 +22,10 @@ module.exports = function (app, passport) {
   app.get('/', home.index);
   app.get('/market', market.index);
   app.get('/wallet', wallet.index);
-  app.get('/sign-up', signUp.index);
+  app.get('/historic', historic.index);
   app.get('/login', login.index);
   app.get('/profile', profile.index);
+  app.get('/sign-up', signUp.index);
 
   /**
    * Error handling
