@@ -1,5 +1,87 @@
-extends layouts/default.jade
+extends layouts/default
+block page-header
 block content
-  div.card
-    div.card-body
-      h5.card-title Mon solde
+  div.row.justify-content-md-center.mt-5
+    div.col-4
+      div.card.text-white.bg-dark.col-sm
+        div.card-header
+          h5 Mon portefeuille CTS
+        div.card-body
+          div.row
+            p Valeur estimée de mes placements en BTC :
+          div.row
+            h4 0,0300210020 €
+        div.card-footer.text-muted.text-right Mise à jour : Aujourd'hui à 10:48.
+
+    div.col-4
+      div.card.text-white.bg-dark.col-sm
+        div.card-header
+          h5 Mon solde
+        div.card-body
+          div.row
+            div.col-4.d-flex
+              h4.m-0.align-self-center 637, 66 €
+            div.col-8
+              a.btn.btn-success.mr-4 Recharger mon compte
+              a.btn.btn-success Retrait
+        div.card-footer.text-muted.text-right Mise à jour : Aujourd'hui à 10:48.
+
+  div.row.justify-content-md-center.mt-5
+    div.col-8
+      div.card.text-white.bg-dark.col-sm
+        div.card-header
+          h5 Historique de mes transactions
+        div.card-body
+          div.row
+            div.col-12
+              table.table.table-striped.table-bordered.table-dark
+                thead
+                  tr
+                    th Nom
+                    th Valeur acheté
+                    th Valeur en euros
+                    th ID de la transaction
+                    th date
+                    th Info
+                tbody
+                  tr
+                    th.align-middle BTC
+                    th.align-middle 0,0000034
+                    th.align-middle 56,89 €
+                    th.align-middle IZIJNAZJNO2139183
+                    th.align-middle 12/07/17 12:34
+                    th
+                      a.btn.btn-info voir
+                  tr
+                    th.align-middle BTC
+                    th.align-middle 0,00040099
+                    th.align-middle 360,89 €
+                    th.align-middle IZIOIOOIKNOAINOINA
+                    th.align-middle 12/07/17 12:34
+                    th
+                      a.btn.btn-info voir
+                  tr
+                    th.align-middle BTC
+                    th.align-middle 0,0000034
+                    th.align-middle 68,24 €
+                    th.align-middle IZIJ12121JIBIUZGDZZ
+                    th.align-middle 12/07/17 12:34
+                    th
+                      a.btn.btn-info voir
+                  tr
+                    th.align-middle BTC
+                    th.align-middle 0,0000034
+                    th.align-middle 56,89 €
+                    th.align-middle IZIJNAZJNO121212DD
+                    th.align-middle 13/08/17 12:34
+                    th
+                      a.btn.btn-info voir
+                  tr
+                    th.align-middle BTC
+                    th.align-middle 0,0000034
+                    th.align-middle 56,89 €
+                    th.align-middle IZIJNA0809KJNKUJH
+                    th.align-middle 12/07/17 12:34
+                    th
+                      a.btn.btn-info voir
+
