@@ -5,6 +5,7 @@
 
 const mongoose = require('mongoose');
 const userPlugin = require('mongoose-user');
+const passportLocalMongoose = require('passport-local-mongoose');
 const { Schema } = mongoose;
 
 /**
@@ -24,6 +25,7 @@ const UserSchema = new Schema({
  */
 
 UserSchema.plugin(userPlugin, {});
+UserSchema.plugin(passportLocalMongoose);
 
 /**
  * Add your
