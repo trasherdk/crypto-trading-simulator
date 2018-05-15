@@ -4,7 +4,9 @@ block content
         div.card.bg-dark.text-white
             div.card-body
                 h5.card-title S'enregistrer
-                form
+                h6.alert.alert-danger #{err}
+                form(method='POST', action='/sign-up')
+                    input(type="hidden", name="_csrf", value=csrfToken)
                     div.form-group
                         label(for='pseudo') Pseudo
                         input.form-control#pseudo(

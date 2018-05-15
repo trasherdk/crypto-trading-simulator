@@ -4,7 +4,8 @@ block content
         div.card.bg-dark.text-white
             div.card-body
                 h5.card-title Se connecter
-                form
+                form(method='POST', action='/login')
+                    input(type="hidden", name="_csrf", value=csrfToken)
                     div.form-group
                         label(for='pseudo') Pseudo
                         input.form-control#pseudo(

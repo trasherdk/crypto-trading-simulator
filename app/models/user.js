@@ -4,7 +4,7 @@
  */
 
 const mongoose = require('mongoose');
-const userPlugin = require('mongoose-user');
+// const userPlugin = require('mongoose-user');
 const passportLocalMongoose = require('passport-local-mongoose');
 const { Schema } = mongoose;
 
@@ -14,7 +14,6 @@ const { Schema } = mongoose;
 const UserSchema = new Schema({
   name: { type: String, default: '' },
   email: { type: String, default: '' },
-  hashed_password: { type: String, default: '' },
   salt: { type: String, default: '' },
   wallet: { type: Schema.Types.ObjectId, ref: 'Wallet' },
   trading: [{ type: Schema.Types.ObjectId, ref: 'Trading' }]
@@ -24,7 +23,7 @@ const UserSchema = new Schema({
  * User plugin
  */
 
-UserSchema.plugin(userPlugin, {});
+// UserSchema.plugin(userPlugin, {});
 UserSchema.plugin(passportLocalMongoose);
 
 /**
