@@ -4,7 +4,7 @@ block head
   include includes/head
 
 block content
-  div.container.mt-5
+  div.container.my-5
     div.card.bg-dark.text-white
       div.card-header
         h2.m-0 Se connecter
@@ -17,6 +17,7 @@ block content
             type='text'
             name='pseudo'
             placeholder='Jean'
+            required
             )
             small.form-text.text-muted Votre pseudo de connexion
           div.form-group
@@ -25,6 +26,7 @@ block content
             type='password'
             name='pass'
             placeholder='••••••••••••••••••'
+            required
             )
             small.form-text.text-muted Ne divulgez jamais votre mot de passe
           button.btn.btn-light Se connecter

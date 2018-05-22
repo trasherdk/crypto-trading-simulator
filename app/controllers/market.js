@@ -1,7 +1,7 @@
 const axios = require("axios");
 const moment = require("moment");
 const API_URL = "https://min-api.cryptocompare.com/data";
-moment.locale('fr');
+moment.locale("fr");
 
 exports.index = (req, res) => {
   const cryptos = [
@@ -93,14 +93,15 @@ var myChart = new Chart(ctx, {
       data.sort((a, b) => {
         const indexA = cryptos.indexOf(a.pair.substr(0, 3));
         const indexB = cryptos.indexOf(b.pair.substr(0, 3));
-        return (indexA === indexB) ? 0 : (indexA < indexB) ? -1 : 1
+        return indexA === indexB ? 0 : indexA < indexB ? -1 : 1;
       });
     })
   ).then(() => {
     const isConnected = typeof req.session.id !== "undefined";
 
     res.render("market", {
-      data, isConnected
+      data,
+      isConnected
     });
   });
 };
@@ -113,12 +114,10 @@ exports.pair = async (req, res) => {
 
   const {
     data: { EUR: price }
+  } = await axios.get(`${API_URL}/price?fsym=${pairFrom}&tsyms=${pairTo}`);
+  const {
+    data: { Data: histo }
   } = await axios.get(
-    `${API_URL}/price?fsym=${pairFrom}&tsyms=${pairTo}`
-  );
-  const { data: {
-    Data: histo
-  }} = await axios.get(
     `${API_URL}/histohour?fsym=${pairFrom}&tsym=${pairTo}&limit=24`
   );
 
@@ -149,6 +148,7 @@ var myChart = new Chart(ctx, {
         }]
     },
     options: {
+      maintainAspectRatio: false,
       tooltips: {
         intersect: false
       },
@@ -169,9 +169,14 @@ var myChart = new Chart(ctx, {
       },
     }
 });`;
+
   const data = {
+    balanceCurrency: 0, //TODO Aurélien aussi STP
+    balanceEUR: 0, //TODO Aurélien STP
+    currency: pairFrom,
     pair: `${pairFrom}-EUR`,
     id: `${pairFrom}EUR`,
+    priceNumber: price,
     price: `${price} €`,
     chart: chartScript,
     lastUpdate: moment
@@ -180,5 +185,5 @@ var myChart = new Chart(ctx, {
       .fromNow()
   };
 
-  res.render("market-pair", { data });
+  res.render("trade", { data });
 };

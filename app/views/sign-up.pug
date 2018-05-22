@@ -4,12 +4,13 @@ block head
   include includes/head
 
 block content
-  div.container.mt-5
+  div.container.my-5
     div.card.bg-dark.text-white
       div.card-header
         h2.m-0 S'enregistrer
-        h6.alert.alert-danger #{err}
       div.card-body
+        if err
+          h6.alert.alert-danger #{err}
         form(method='POST', action='/sign-up')
           div.form-group
             input(type="hidden", name="_csrf", value=csrfToken)
@@ -18,14 +19,16 @@ block content
             type='text'
             name='pseudo'
             placeholder='Jean'
+            required
             )
             small.form-text.text-muted Ce pseudo doit être unique
           div.form-group
             label(for='mail') Mail
             input.form-control#mail(
-            type='mail'
+            type='email'
             name='mail'
-            placeholder='Jean@mail.com'
+            placeholder='jean@mail.com'
+            required
             )
             small.form-text.text-muted Ce mail doit être unique
           div.form-group
@@ -34,6 +37,7 @@ block content
             type='password'
             name='pass'
             placeholder='••••••••••••••••••'
+            required
             )
             small.form-text.text-muted Ne divulgez jamais votre mot de passe
           div.form-group
@@ -42,6 +46,7 @@ block content
             type='password'
             name='passConfirm'
             placeholder='••••••••••••••••••'
+            required
             )
             small.form-text.text-muted Tapez à nouveau votre mot de passe
           button.btn.btn-light S'enregistrer
