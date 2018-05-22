@@ -1,12 +1,12 @@
-
 /* !
  * Module dependencies.
  */
 
-exports.index = function (req, res) {
-  res.render('home');
-};
+exports.index = function(req, res) {
+  const isConnected = typeof req.session.id !== "undefined";
 
+  res.render("home", { isConnected });
+};
 
 // TEST MONGOOSE (laisser en commentaire SVP)
 //
@@ -20,7 +20,6 @@ exports.index = function (req, res) {
 // User.findById('5ae97ab64e39f2434c11329e', function (err, user) {
 //     console.log(user);
 // });
-
 
 // let trade = new Trading({
 //     src_currency:'euros',
@@ -45,6 +44,3 @@ exports.index = function (req, res) {
 // });
 // user.save();
 //
-
-
-

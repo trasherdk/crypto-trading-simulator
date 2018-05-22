@@ -1,3 +1,4 @@
 exports.index = (req, res) => {
-  res.render('historic');
+  const isConnected = typeof req.session.id !== "undefined";
+  res.render('historic', {isConnected});
 };

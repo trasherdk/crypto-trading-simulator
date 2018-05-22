@@ -1,3 +1,7 @@
 exports.index = (req, res) => {
-  res.render('login');
+  const isConnected = typeof req.session.id !== "undefined";
+  console.log(isConnected);
+
+
+  res.render("login", { isConnected });
 };

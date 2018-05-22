@@ -97,8 +97,10 @@ var myChart = new Chart(ctx, {
       });
     })
   ).then(() => {
+    const isConnected = typeof req.session.id !== "undefined";
+
     res.render("market", {
-      data
+      data, isConnected
     });
   });
 };

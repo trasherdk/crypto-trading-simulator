@@ -7,13 +7,18 @@
       ul.navbar-nav.mr-auto
         li.nav-item
           a.nav-link(href="/market") Marché
-        li.nav-item
-          a.nav-link(href="/wallet") Portefeuille
-        li.nav-item
-          a.nav-link(href="/historic") Historique
-      ul.navbar-nav
-        li.nav-item.mr-2
-          a.nav-link(href="/login").navbar-text Connexion
-        li.nav-item
-          a(href="/sign-up")
-            button.btn.btn-outline-success.font-weight-bold Inscription
+      if isConnected
+        ul.navbar-nav
+          li.nav-item
+            a.nav-link(href="/wallet") Portefeuille
+          li.nav-item
+            a.nav-link(href="/historic") Historique
+          li.nav-item
+            a.nav-link(href="/logout") Déconnexion
+      else
+        ul.navbar-nav
+          li.nav-item.mr-2
+            a.nav-link(href="/login").navbar-text Connexion
+          li.nav-item
+            a(href="/sign-up")
+              button.btn.btn-outline-success.font-weight-bold Inscription
