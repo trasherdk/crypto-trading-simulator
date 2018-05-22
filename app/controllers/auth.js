@@ -50,17 +50,13 @@ exports.login = function (req, res) {
 const doLogin = function (req, res) {
     let authenticate = User.authenticate();
     authenticate(req.body.pseudo, req.body.pass, function (err, user) {
-        if (err) {
-            console.log(err);
-            return res.redirect('/login', { csrfToken: req.csrfToken() });
-        }
-        else if (user){
+        if (user){
             req.session.id = user._id;
             req.session.walletId = user.wallet;
-            res.redirect('/market');
+            return res.redirect('/market');
         }
         else {
-            return res.redirect('/login', { csrfToken: req.csrfToken() });
+            return res.redirect('/login');
         }
     });
 };
