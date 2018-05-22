@@ -1,70 +1,71 @@
 extends layouts/default
 
 block head
-    - var title = 'Profil - CTS';
-    include includes/head
+  - var title = 'Profil - CTS';
+  include includes/head
 
 block content
-    div.container
-        div.card.bg-dark.text-white
-            div.card-body
-                h5.card-title Mon profil (modifier mes données)
-                form(method="POST", action="profile")
-                    input(type="hidden", name="_csrf", value=csrfToken)
-                    div.form-group
-                        label(for='pseudo') Pseudo
-                        if user
-                            input.form-control#pseudo(
-                            type='text'
-                            name='pseudo'
-                            placeholder='Jean'
-                            value=user.username
-                            )
-                        else
-                            input.form-control#pseudo(
-                            type='text'
-                            name='pseudo'
-                            placeholder='Jean'
-                            )
-                        small.form-text.text-muted Votre pseudo de connexion
-                    div.form-group
-                        label(for='lastPass') Ancien mot de passe
-                        input.form-control#lastPass(
-                        type='password'
-                        name='lastPass'
-                        placeholder='••••••••••••••••••'
-                        )
-                        small.form-text.text-muted Ne divulgez jamais votre mot de passe (même l'ancien)
-                    div.form-group
-                        label(for='mail') Nouveau mail
-                        if user
-                            input.form-control#mail(
-                            type='mail'
-                            name='mail'
-                            placeholder='Jean@mail.com'
-                            value=user.email
-                            )
-                        else
-                            input.form-control#mail(
-                            type='mail'
-                            name='mail'
-                            placeholder='Jean@mail.com'
-                            )
-                        small.form-text.text-muted Ce mail doit être unique
-                    div.form-group
-                        label(for='pass') Nouveau mot de passe
-                        input.form-control#pass(
-                        type='password'
-                        name='pass'
-                        placeholder='••••••••••••••••••'
-                        )
-                        small.form-text.text-muted Ne divulguez jamais votre nouveau mot de passe
-                    div.form-group
-                        label(for='pass') Nouveau mot de passe (confirmation)
-                        input.form-control#passConfirm(
-                        type='password'
-                        name='passConfirm'
-                        placeholder='••••••••••••••••••'
-                        )
-                        small.form-text.text-muted Tapez à nouveau votre nouveau mot de passe
-                    button.btn.btn-light Modifier mes données
+  div.container.my-5.pb-4
+    div.card.bg-dark.text-white
+      div.card-header
+        h2.m-0 Profil
+      div.card-body
+        form(method="POST", action="profile")
+          input(type="hidden", name="_csrf", value=csrfToken)
+          div.form-group
+            label(for='pseudo') Pseudo
+            if user
+              input.form-control#pseudo(
+              type='text'
+              name='pseudo'
+              placeholder='Jean'
+              value=user.username
+              )
+            else
+              input.form-control#pseudo(
+              type='text'
+              name='pseudo'
+              placeholder='Jean'
+              )
+            small.form-text.text-muted Votre pseudo de connexion
+          div.form-group
+            label(for='lastPass') Ancien mot de passe
+            input.form-control#lastPass(
+            type='password'
+            name='lastPass'
+            placeholder='••••••••••••••••••'
+            )
+            small.form-text.text-muted Ne divulgez jamais votre mot de passe (même l'ancien)
+          div.form-group
+            label(for='mail') Nouveau mail
+            if user
+              input.form-control#mail(
+              type='mail'
+              name='mail'
+              placeholder='Jean@mail.com'
+              value=user.email
+              )
+            else
+              input.form-control#mail(
+              type='mail'
+              name='mail'
+              placeholder='Jean@mail.com'
+              )
+            small.form-text.text-muted Ce mail doit être unique
+          div.form-group
+            label(for='pass') Nouveau mot de passe
+            input.form-control#pass(
+            type='password'
+            name='pass'
+            placeholder='••••••••••••••••••'
+            )
+            small.form-text.text-muted Ne divulguez jamais votre nouveau mot de passe
+          div.form-group
+            label(for='pass') Nouveau mot de passe (confirmation)
+            input.form-control#passConfirm(
+            type='password'
+            name='passConfirm'
+            placeholder='••••••••••••••••••'
+            )
+            small.form-text.text-muted Tapez à nouveau votre nouveau mot de passe
+          button.btn.btn-light Modifier mes données

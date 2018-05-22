@@ -21,6 +21,6 @@ block content
                   h3.m-0.align-self-center= currency.price
                 if isConnected
                   div.col-sm.text-sm-right.mt-3.mt-sm-0
-                    a(href="/market/btc-eur" target="_self")
+                    a(href="/market/"+ currency.pair, target="_self")
                       button.btn.btn-success.btn-md(type="button") Acheter/Vendre
           div.card-footer.text-muted.text-right Mise à jour : #{currency.lastUpdate}
