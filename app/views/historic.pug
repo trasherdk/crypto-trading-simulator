@@ -13,53 +13,19 @@ block content
           div.card-body
             div.row
               div.col-12
-                table.table.table-striped.table-bordered.table-dark.table-hover
-                  thead
-                    tr
-                      th Nom
-                      th Valeur acheté
-                      th Valeur en euros
-                      th ID de la transaction
-                      th Date
-                      th Informations
-                  tbody
-                    tr
-                      th.align-middle BTC
-                      th.align-middle 0,0000034
-                      th.align-middle 56,89 €
-                      th.align-middle IZIJNAZJNO2139183
-                      th.align-middle 12/07/17 12:34
-                      th
-                        a.btn.btn-info.btn-sm Détails
-                    tr
-                      th.align-middle BTC
-                      th.align-middle 0,00040099
-                      th.align-middle 360,89 €
-                      th.align-middle IZIOIOOIKNOAINOINA
-                      th.align-middle 12/07/17 12:34
-                      th
-                        a.btn.btn-info.btn-sm Détails
-                    tr
-                      th.align-middle BTC
-                      th.align-middle 0,0000034
-                      th.align-middle 68,24 €
-                      th.align-middle IZIJ12121JIBIUZGDZZ
-                      th.align-middle 12/07/17 12:34
-                      th
-                        a.btn.btn-info.btn-sm Détails
-                    tr
-                      th.align-middle BTC
-                      th.align-middle 0,0000034
-                      th.align-middle 56,89 €
-                      th.align-middle IZIJNAZJNO121212DD
-                      th.align-middle 13/08/17 12:34
-                      th
-                        a.btn.btn-info.btn-sm Détails
-                    tr
-                      th.align-middle BTC
-                      th.align-middle 0,0000034
-                      th.align-middle 56,89 €
-                      th.align-middle IZIJNA0809KJNKUJH
-                      th.align-middle 12/07/17 12:34
-                      th
-                        a.btn.btn-info.btn-sm Détails
+                  table.table.table-striped.table-bordered.table-dark.table-hover
+                    thead
+                      tr
+                        th Nom
+                        th Valeur acheté
+                        th Valeur en euros
+                        th ID de la transaction
+                        th Date
+                    tbody
+                      each historic in data
+                        tr
+                          th.align-middle #{historic.cryptoName}
+                          th.align-middle #{historic.cryptoBoughtValue}
+                          th.align-middle #{historic.moneySpent} €
+                          th.align-middle #{historic.transactionId}
+                          th.align-middle #{historic.transactionDate}
