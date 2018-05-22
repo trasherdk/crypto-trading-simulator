@@ -8,9 +8,9 @@ const home = require('../app/controllers/home');
 const market = require('../app/controllers/market');
 const wallet = require('../app/controllers/wallet');
 const auth = require('../app/controllers/auth');
-const login = require('../app/controllers/login');
 const profile = require('../app/controllers/profile');
 const historic = require('../app/controllers/historic');
+const user = require('../app/controllers/user');
 
 /**
  * Expose
@@ -25,7 +25,8 @@ module.exports = function (app, passport) {
   app.get('/historic', historic.index);
   app.get('/login', auth.login);
   app.post('/login', auth.doLogin);
-  app.get('/profile', profile.index);
+  app.get('/profile', user.index);
+  app.post('/profile', user.update);
   app.get('/sign-up', auth.signup);
   app.post('/sign-up', auth.doRegister);
   app.get('/logout', auth.logout);
