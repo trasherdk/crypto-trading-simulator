@@ -14,7 +14,8 @@ block content
             p Valeur estimée de mes placements en BTC :
           div.row
             h4 0,0300210020 €
-        div.card-footer.text-muted.text-right Mise à jour : Aujourd'hui à 10:48.
+        each update in data
+          div.card-footer.text-muted.text-right Mise à jour : #{update.time}.
 
     div.col-4
       div.card.text-white.bg-dark.col-sm
@@ -27,7 +28,8 @@ block content
             div.col-8
               a.btn.btn-success.mr-4 Recharger mon compte
               a.btn.btn-success Retrait
-        div.card-footer.text-muted.text-right Mise à jour : Aujourd'hui à 10:48.
+        each update in data
+          div.card-footer.text-muted.text-right Mise à jour : #{update.time}.
 
   div.row.justify-content-md-center.mt-5
     div.col-8
