@@ -27,6 +27,7 @@ module.exports = function (app, passport) {
   app.get('/profile', profile.index);
   app.get('/sign-up', auth.signup);
   app.post('/sign-up', auth.doRegister);
+  app.get('/logout', auth.logout);
 
   /**
    * Error handling
