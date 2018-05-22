@@ -1,5 +1,6 @@
 const axios = require("axios");
 const moment = require("moment");
+const API_URL = "https://min-api.cryptocompare.com/data";
 moment.locale('fr');
 
 exports.index = (req, res) => {
@@ -14,7 +15,6 @@ exports.index = (req, res) => {
     "XLM",
     "TRX"
   ];
-  const API_URL = "https://min-api.cryptocompare.com/data";
   const data = [];
 
   Promise.all(
@@ -103,4 +103,82 @@ var myChart = new Chart(ctx, {
       data, isConnected
     });
   });
+};
+
+exports.pair = async (req, res) => {
+  const { pair } = req.params;
+  const pairNames = pair.split("-");
+  const pairFrom = pairNames[0].toUpperCase();
+  const pairTo = pairNames[1].toUpperCase();
+
+  const {
+    data: { EUR: price }
+  } = await axios.get(
+    `${API_URL}/price?fsym=${pairFrom}&tsyms=${pairTo}`
+  );
+  const { data: {
+    Data: histo
+  }} = await axios.get(
+    `${API_URL}/histohour?fsym=${pairFrom}&tsym=${pairTo}&limit=24`
+  );
+
+  let lastUpdate = 0;
+  const timeHistory = histo.reduce((acc, value) => {
+    const { time } = value;
+    lastUpdate = time;
+    const formatedTime = moment.unix(time).format("hh:mm");
+    acc.push(`'${formatedTime}'`);
+    return acc;
+  }, []);
+  const valuesHistory = histo.reduce((acc, value) => {
+    const { close } = value;
+    acc.push(close);
+    return acc;
+  }, []);
+  const chartScript = `var ctx = document.getElementById('${pairFrom}EUR');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [${timeHistory}],
+        datasets: [{
+            backgroundColor: 'rgba(36, 166, 71, 0.3)',
+            label: 'Valeur',
+            data: [${valuesHistory}],
+            borderColor: 'rgba(36, 166, 71, 1)',
+            borderWidth: 3
+        }]
+    },
+    options: {
+      tooltips: {
+        intersect: false
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            fontColor: 'white',
+          }
+        }],
+        xAxes: [{
+          ticks: {
+            fontColor: 'white',
+          }
+        }]
+      },
+      legend: {
+          display: false
+      },
+    }
+});`;
+  const data = {
+    pair: `${pairFrom}-EUR`,
+    id: `${pairFrom}EUR`,
+    price: `${price} €`,
+    chart: chartScript,
+    lastUpdate: moment
+      .unix(lastUpdate)
+      .startOf("minute")
+      .fromNow()
+  };
+
+  res.render("market-pair", { data });
 };
