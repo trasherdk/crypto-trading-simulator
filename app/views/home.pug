@@ -1,0 +1,24 @@
+extends layouts/default
+block head
+  - var title = 'Home - CTS';
+  include includes/head
+
+block content
+  div.row
+    div.jumbotron.w-100.rounded-0
+      div.container-fluid.text-center
+        h2.display-4 Welcome to
+        h1.display-1 Crypto Trading Simulator
+
+    div.container.mt-5
+      div.row
+        div.col.text-center
+          a(href="../login/").mx-2
+            button(type="button").btn.btn-success.btn-outline-success.btn-lg Login
+          a(href="../sign-up/").mx-2
+            button(type="button").btn.btn-success.btn-lg Sign Up
+      div.row.mt-5
+        div.col.text-center
+          img(src="https://media.giphy.com/media/LukAHGCMfxMbK/giphy.gif")
+          img(src="https://media.giphy.com/media/LukAHGCMfxMbK/giphy.gif")
+          img(src="https://media.giphy.com/media/LukAHGCMfxMbK/giphy.gif")
