@@ -185,5 +185,9 @@ var myChart = new Chart(ctx, {
       .fromNow()
   };
 
-  res.render("trade", { data });
+  const isConnected = typeof req.session.id !== "undefined";
+  res.render("trade", {
+    data,
+    isConnected
+  });
 };
