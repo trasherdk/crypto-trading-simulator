@@ -1,6 +1,6 @@
 extends layouts/default
 block head
-  - var title = 'Market - CTS';
+  - var title = 'Marché - CTS';
   include includes/head
   script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js")
 
@@ -9,10 +9,11 @@ block content
     each currency in data
       div.col-sm-12.col-md-6.col-lg-4.p-4
         div.card.bg-dark.text-white
+          div.card-header
+            h2.m-0= currency.pair
           div.card-body
-            h2.m-0.card-title= currency.pair
             div.card-text
-              div.my-3
+              div
                 canvas(id=currency.id)
                 script= currency.chart
               div.row
