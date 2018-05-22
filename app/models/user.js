@@ -4,16 +4,16 @@
  */
 
 const mongoose = require('mongoose');
-const userPlugin = require('mongoose-user');
+// const userPlugin = require('mongoose-user');
+const passportLocalMongoose = require('passport-local-mongoose');
 const { Schema } = mongoose;
 
 /**
  * User schema
  */
 const UserSchema = new Schema({
-  name: { type: String, default: '' },
+  username: { type: String, default: '' },
   email: { type: String, default: '' },
-  hashed_password: { type: String, default: '' },
   salt: { type: String, default: '' },
   wallet: { type: Schema.Types.ObjectId, ref: 'Wallet' },
   trading: [{ type: Schema.Types.ObjectId, ref: 'Trading' }]
@@ -23,7 +23,8 @@ const UserSchema = new Schema({
  * User plugin
  */
 
-UserSchema.plugin(userPlugin, {});
+// UserSchema.plugin(userPlugin, {});
+UserSchema.plugin(passportLocalMongoose);
 
 /**
  * Add your

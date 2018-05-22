@@ -8,9 +8,11 @@ block content
     div.card.bg-dark.text-white
       div.card-header
         h2.m-0 S'enregistrer
+        h6.alert.alert-danger #{err}
       div.card-body
-        form
+        form(method='POST', action='/sign-up')
           div.form-group
+            input(type="hidden", name="_csrf", value=csrfToken)
             label(for='pseudo') Pseudo
             input.form-control#pseudo(
             type='text'

@@ -9,7 +9,8 @@ block content
       div.card-header
         h2.m-0 Se connecter
       div.card-body
-        form
+        form(method='POST', action='/login')
+          input(type="hidden", name="_csrf", value=csrfToken)
           div.form-group
             label(for='pseudo') Pseudo
             input.form-control#pseudo(

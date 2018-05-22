@@ -17,6 +17,7 @@ const join = require('path').join;
 const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
+const session = require('express-session');
 const config = require('./config');
 
 const models = join(__dirname, 'app/models');
