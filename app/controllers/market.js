@@ -1,5 +1,6 @@
 const axios = require("axios");
 const moment = require("moment");
+moment.locale('fr');
 
 exports.index = (req, res) => {
   const cryptos = [
