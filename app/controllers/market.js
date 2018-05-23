@@ -188,6 +188,12 @@ var myChart = new Chart(ctx, {
   const isConnected = typeof req.session.id !== "undefined";
   res.render("trade", {
     data,
-    isConnected
+    isConnected,
+    csrfToken: req.csrfToken()
   });
+};
+
+exports.trade = function (req, res) {
+    console.log(req.body);
+    res.send('ok');
 };

@@ -10,9 +10,10 @@ block content
         div.card-header
           h5 Mon portefeuille CTS
         div.card-body
-          each crypto in wallet.cryptos
-            div.row
-              p BTC : #{crypto.currency_qty}
+          if wallet
+            each crypto in wallet.cryptos
+              div.row
+                p #{crypto.currency} : #{crypto.currency_qty}
 
     div.col-4
       div.card.text-white.bg-dark.col-sm

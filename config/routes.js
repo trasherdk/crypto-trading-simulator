@@ -21,6 +21,7 @@ module.exports = function (app, passport) {
   app.get('/', home.index);
   app.get('/market', market.index);
   app.get('/market/:pair', market.pair);
+  app.post('/market/:pair', market.trade);
   app.get('/wallet', wallet.index);
   app.get('/historic', historic.index);
   app.get('/login', auth.login);
