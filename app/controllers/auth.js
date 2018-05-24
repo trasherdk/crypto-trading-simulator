@@ -37,7 +37,7 @@ exports.doRegister = function (req, res) {
         wallet.save();
         User.findByIdAndUpdate(user._id, { $set: { wallet: wallet } }).exec();
 
-        doLogin(req, res);
+        return res.redirect('login');
     });
 };
 

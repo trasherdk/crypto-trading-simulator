@@ -18,47 +18,11 @@ block content
                       th Nom
                       th Valeur acheté
                       th Valeur en euros
-                      th ID de la transaction
-                      th Date
-                      th Informations
+                      th date
                   tbody
-                    tr
-                      th.align-middle BTC
-                      th.align-middle 0,0000034
-                      th.align-middle 56,89 €
-                      th.align-middle IZIJNAZJNO2139183
-                      th.align-middle 12/07/17 12:34
-                      th
-                        a.btn.btn-info.btn-sm Détails
-                    tr
-                      th.align-middle BTC
-                      th.align-middle 0,00040099
-                      th.align-middle 360,89 €
-                      th.align-middle IZIOIOOIKNOAINOINA
-                      th.align-middle 12/07/17 12:34
-                      th
-                        a.btn.btn-info.btn-sm Détails
-                    tr
-                      th.align-middle BTC
-                      th.align-middle 0,0000034
-                      th.align-middle 68,24 €
-                      th.align-middle IZIJ12121JIBIUZGDZZ
-                      th.align-middle 12/07/17 12:34
-                      th
-                        a.btn.btn-info.btn-sm Détails
-                    tr
-                      th.align-middle BTC
-                      th.align-middle 0,0000034
-                      th.align-middle 56,89 €
-                      th.align-middle IZIJNAZJNO121212DD
-                      th.align-middle 13/08/17 12:34
-                      th
-                        a.btn.btn-info.btn-sm Détails
-                    tr
-                      th.align-middle BTC
-                      th.align-middle 0,0000034
-                      th.align-middle 56,89 €
-                      th.align-middle IZIJNA0809KJNKUJH
-                      th.align-middle 12/07/17 12:34
-                      th
-                        a.btn.btn-info.btn-sm Détails
+                    each trade in trading
+                      tr
+                        th.align-middle #{trade.dst_currency}
+                        th.align-middle #{trade.dst_value}
+                        th.align-middle #{trade.src_value} #{trade.src_currency}
+                        th.align-middle #{trade.date}
