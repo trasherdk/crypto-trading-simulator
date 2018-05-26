@@ -19,18 +19,21 @@ const user = require('../app/controllers/user');
 module.exports = function (app, passport) {
 
   app.get('/', home.index);
+  app.get('/login', auth.login);
+  app.post('/login', auth.doLogin);
+  app.get('/sign-up', auth.signup);
+  app.post('/sign-up', auth.doRegister);
   app.get('/market', market.index);
+
+  app.use('/', (req, res, next) => req.session.id ? next() : res.redirect('/login'));
+
+  app.get('/logout', auth.logout);
   app.get('/market/:pair', market.pair);
   app.post('/market/:pair', market.trade);
   app.get('/wallet', wallet.index);
   app.get('/historic', historic.index);
-  app.get('/login', auth.login);
-  app.post('/login', auth.doLogin);
   app.get('/profile', user.index);
   app.post('/profile', user.update);
-  app.get('/sign-up', auth.signup);
-  app.post('/sign-up', auth.doRegister);
-  app.get('/logout', auth.logout);
 
   /**
    * Error handling
@@ -40,7 +43,7 @@ module.exports = function (app, passport) {
     // treat as 404
     if (err.message
       && (~err.message.indexOf('not found')
-      || (~err.message.indexOf('Cast to ObjectId failed')))) {
+        || (~err.message.indexOf('Cast to ObjectId failed')))) {
       return next();
     }
     console.error(err.stack);
