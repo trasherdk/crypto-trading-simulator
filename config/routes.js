@@ -31,6 +31,7 @@ module.exports = function (app, passport) {
   app.get('/market/:pair', market.pair);
   app.post('/market/:pair', market.trade);
   app.get('/wallet', wallet.index);
+  app.post('/wallet', wallet.update);
   app.get('/historic', historic.index);
   app.get('/profile', user.index);
   app.post('/profile', user.update);
