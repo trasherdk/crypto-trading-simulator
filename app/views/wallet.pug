@@ -24,8 +24,8 @@ block content
             div.col-4.d-flex
               h4.m-0.align-self-center #{wallet.currency_qty} €
             div.col-8
-              a.btn.btn-success.mr-4 Recharger mon compte
-              a.btn.btn-success Retrait
+              a.btn.btn-success.mr-4(data-toggle="modal" data-target="#recharger") Recharger mon compte
+              a.btn.btn-success(data-toggle="modal" data-target="#retrait") Retrait
 
   div.row.justify-content-md-center.mt-5
     div.col-8
@@ -50,3 +50,32 @@ block content
                       th.align-middle #{trade.src_value} #{trade.src_currency}
                       th.align-middle #{trade.date}
 
+  div.modal.fade#recharger(tabindex="-1" role="dialog" aria-hidden="true")
+    div.modal-dialog(role="document")
+      div.modal-content
+        form(method='POST', action='METTRE TON LIEN NATHAN')
+        div.modal-header
+          h5.modal-title Recharger mon compte
+          button.close(type="button" data-dismiss="modal" aria-label="Close")
+            span(aria-hidden="true") &times;
+        div.modal-body
+            label.font-weight-bold(for='recharger') Entrez le montant que vous voulez ajouter à votre portefeuille :
+            input.form-control(type='number' name='recharger' placeholder='Exemple : 20€' required)
+        div.modal-footer
+          button.btn.btn-success(type="submit") Envoyer
+          button.btn.btn-secondary(type="button" data-dismiss="modal") Annuler
+
+  div.modal.fade#retrait(tabindex="-1" role="dialog" aria-hidden="true")
+      div.modal-dialog(role="document")
+          div.modal-content
+          form(method='POST', action='METTRE TON LIEN NATHAN')
+              div.modal-header
+                  h5.modal-title Effectuer un retrait
+                  button.close(type="button" data-dismiss="modal" aria-label="Close")
+                      span(aria-hidden="true") &times;
+              div.modal-body
+                    label.font-weight-bold(for='retrait') Entrez le montant que vous voulez retirer de votre portefeuille :
+                    input.form-control(type='number' name='retrait' placeholder='Exemple : 20€' required)
+              div.modal-footer
+                  button.btn.btn-success(type="submit") Envoyer
+                  button.btn.btn-secondary(type="button" data-dismiss="modal") Annuler
