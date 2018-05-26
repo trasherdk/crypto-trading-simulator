@@ -1,11 +1,14 @@
+const mongoose = require('mongoose');
 
-
-const data = [];
-data.push({
-
-});
+const User = mongoose.model('User');
+const Trading = mongoose.model('Trading');
 
 exports.index = (req, res) => {
-  const isConnected = typeof req.session.id !== "undefined";
-  res.render('historic', { isConnected, data });
+    User.findById(req.session.id).populate({
+        path: 'trading',
+        model : Trading
+    }).exec(function (err, user){
+        const isConnected = typeof req.session.id !== 'undefined';
+        res.render('historic', {  trading:user.trading, isConnected });
+    });
 };

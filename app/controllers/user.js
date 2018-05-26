@@ -1,23 +1,41 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const User = mongoose.model("User");
+const User = mongoose.model('User');
 
-exports.index = function(req, res) {
-  User.findById(req.session.id, function(err, userFound) {
-    let user = { user: userFound };
-    const isConnected = typeof req.session.id !== "undefined";
-    res.render("user", { user, isConnected });
+exports.index = function (req, res) {
+  User.findById(req.session.id, function (err, user) {
+      const isConnected = typeof req.session.id !== 'undefined';
+      res.render('profile', { user, isConnected, csrfToken: req.csrfToken() });
   });
 };
 
-exports.update = function(req, res) {
-  User.findByIdAndUpdate(req.session.id, req.body.update, function() {
-    res.send("user updated");
-  });
+exports.update = function (req, res) {
+  const isConnected = typeof req.session.id !== 'undefined';
+  const update = {};
+  let changePass = false;
+  if (req.body.mail !== '') update.email = req.body.mail;
+  if (req.body.pseudo !== '') update.username = req.body.pseudo;
+  if (req.body.pass !== '' && req.body.passConfirm !== ''){
+    if (req.body.pass === req.body.passConfirm) changePass = true;
+  }
+  if (update !== {}) {
+      User.findByIdAndUpdate(req.session.id, { $set : update }, function (err, user) {
+          if (changePass) {
+            user.changePassword(req.body.lastPass, req.body.pass);
+            user.save();
+          }
+          res.render('profile', { user:update, isConnected, csrfToken: req.csrfToken() });
+      });
+  }
+  else {
+      User.findById(req.session.id, function (err, user) {
+          res.render('profile', { user, isConnected, csrfToken: req.csrfToken() });
+      });
+  }
 };
 
-exports.drop = function(req, res) {
-  User.findByIdAndRemove(req.session.id, function() {
-    res.send("user deleted");
+exports.drop = function (req, res) {
+  User.findByIdAndRemove(req.session.id, function () {
+    res.redirect('/');
   });
 };

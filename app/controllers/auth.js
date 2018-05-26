@@ -12,23 +12,23 @@ exports.home = function (req, res) {
 
 // Go to registration page
 exports.signup = function (req, res) {
-    res.render('signUp', { csrfToken: req.csrfToken() });
+    res.render('sign-up', { csrfToken: req.csrfToken() });
 };
 
 // Post registration
 exports.doRegister = function (req, res) {
     let data = req.body;
     if (data.pseudo === '' || data.mail === '' || data.pass === '' || data.passConfirm === '') {
-        return res.render('signUp', { err: 'Veuillez compléter tous les champs', csrfToken: req.csrfToken() });
+        return res.render('sign-up', { err: 'Veuillez compléter tous les champs', csrfToken: req.csrfToken() });
     }
     if (data.pass !== data.passConfirm) {
-        return res.render('signUp', { err: 'Pas le même mot de passe', csrfToken: req.csrfToken() });
+        return res.render('sign-up', { err: 'Pas le même mot de passe', csrfToken: req.csrfToken() });
     }
 
     User.register(new User({ email:data.mail, username:data.pseudo }), data.pass, function (err, user) {
         if (err) {
             console.log(err);
-            return res.render('signUp', { csrfToken: req.csrfToken(), err : 'Compte déjà existant' });
+            return res.render('sign-up', { csrfToken: req.csrfToken(), err : 'Compte déjà existant' });
         }
         let wallet = new Wallet({
             currency: 'euros',
@@ -37,7 +37,7 @@ exports.doRegister = function (req, res) {
         wallet.save();
         User.findByIdAndUpdate(user._id, { $set: { wallet: wallet } }).exec();
 
-        doLogin(req, res);
+        return res.redirect('login');
     });
 };
 
@@ -50,17 +50,13 @@ exports.login = function (req, res) {
 const doLogin = function (req, res) {
     let authenticate = User.authenticate();
     authenticate(req.body.pseudo, req.body.pass, function (err, user) {
-        if (err) {
-            console.log(err);
-            return res.redirect('/login', { csrfToken: req.csrfToken() });
-        }
-        else if (user){
+        if (user){
             req.session.id = user._id;
             req.session.walletId = user.wallet;
-            res.redirect('/profile');
+            return res.redirect('/market');
         }
         else {
-            return res.redirect('/login', { csrfToken: req.csrfToken() });
+            return res.redirect('/login');
         }
     });
 };

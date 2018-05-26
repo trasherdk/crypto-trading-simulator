@@ -13,13 +13,14 @@ block content
             h2.m-0= currency.pair
           div.card-body
             div.card-text
-              div
+              div.pb-4
                 canvas(id=currency.id)
                 script= currency.chart
               div.row
                 div.col-sm.d-flex
                   h3.m-0.align-self-center= currency.price
-                div.col-sm.text-sm-right.mt-3.mt-sm-0
-                  a(href="/market/btc-eur" target="_self")
-                    button.btn.btn-success.btn-md(type="button") Acheter/Vendre
+                if isConnected
+                  div.col-sm.text-sm-right.mt-3.mt-sm-0
+                    a(href="/market/"+ currency.pair, target="_self")
+                      button.btn.btn-success.btn-md(type="button") Acheter/Vendre
           div.card-footer.text-muted.text-right Mise à jour : #{currency.lastUpdate}

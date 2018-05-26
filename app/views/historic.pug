@@ -4,28 +4,25 @@ block head
   include includes/head
 
 block content
-  div.container-fluid.mt-5
-    div.row.justify-content-center
-      div.col-10
+    div.row.justify-content-center.mt-5
+      div.col-sm-12.col-md-10
         div.card.bg-dark.text-white
           div.card-header
             h2.m-0 Historique de mes transactions
           div.card-body
             div.row
               div.col-12
-                  table.table.table-striped.table-bordered.table-dark.table-hover
-                    thead
+                table.table.table-striped.table-bordered.table-dark.table-hover
+                  thead
+                    tr
+                      th Nom
+                      th Valeur acheté
+                      th Valeur en euros
+                      th date
+                  tbody
+                    each trade in trading
                       tr
-                        th Nom
-                        th Valeur acheté
-                        th Valeur en euros
-                        th ID de la transaction
-                        th Date
-                    tbody
-                      each historic in data
-                        tr
-                          th.align-middle #{historic.cryptoName}
-                          th.align-middle #{historic.cryptoBoughtValue}
-                          th.align-middle #{historic.moneySpent} €
-                          th.align-middle #{historic.transactionId}
-                          th.align-middle #{historic.transactionDate}
+                        th.align-middle #{trade.dst_currency}
+                        th.align-middle #{trade.dst_value}
+                        th.align-middle #{trade.src_value} #{trade.src_currency}
+                        th.align-middle #{trade.date}
