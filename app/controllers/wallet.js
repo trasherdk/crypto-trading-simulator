@@ -18,8 +18,14 @@ exports.index = (req, res) => {
 
 exports.update = (req, res) => {
     let money = (req.body.moneyAdd) ? req.body.moneyAdd : - req.body.moneyWithdraw;
-    Wallet.findByIdAndUpdate(req.session.walletId, { $inc : { 'currency_qty' : money } }).exec();
-    res.redirect('/wallet');
+    // Wallet.findByIdAndUpdate(req.session.walletId, { $inc : { 'currency_qty' : money } }).exec();
+    Wallet.findById(req.session.walletId, function (err, wallet) {
+        if (req.body.moneyWithdraw){
+            if (wallet.currency_qty < req.body.moneyWithdraw) return res.redirect('/wallet');
+        }
+        wallet.update({ $inc : { 'currency_qty' : money } }).exec();
+        return res.redirect('/wallet');
+    });
 };
 
 exports.drop = function (req, res) {

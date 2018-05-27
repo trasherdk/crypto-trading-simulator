@@ -207,7 +207,6 @@ var myChart = new Chart(ctx, {
 };
 
 exports.trade = function (req, res) {
-    console.log(req.body);
 
     let trade = new Trading({
         src_currency: req.body.src_currency,
@@ -224,30 +223,44 @@ exports.trade = function (req, res) {
 
     switch (req.body.action){
         case 'sell':
-            Wallet.findByIdAndUpdate(req.session.walletId, { $inc : { 'currency_qty' : req.body.dst_value } }, function (err, wallet) {
-                let crypto = wallet.cryptos.find(function (crypto) {
+            Wallet.findById(req.session.walletId, function (err, wallet) {
+                let currentCrypto = wallet.cryptos.find(function (crypto) {
                     return crypto.currency === req.body.src_currency;
                 });
-                if (crypto === undefined) {
-                    let cryptoToAdd = { currency : req.body.src_currency, currency_qty:req.body.src_value };
-                    Wallet.findByIdAndUpdate(req.session.walletId, { $push: { cryptos: cryptoToAdd } }).exec();
-                } else {
-                    Wallet.update({ 'cryptos.currency':crypto.currency }, { $inc :
-                            { 'cryptos.$.currency_qty' : -req.body.src_value } }).exec();
+                if (currentCrypto.currency_qty >= req.body.src_value) {
+                    wallet.update({$inc: {'currency_qty': req.body.dst_value}}).exec();
+                    let crypto = wallet.cryptos.find(function (crypto) {
+                        return crypto.currency === req.body.src_currency;
+                    });
+                    if (crypto === undefined) {
+                        let cryptoToAdd = {currency: req.body.src_currency, currency_qty: req.body.src_value};
+                        Wallet.findByIdAndUpdate(req.session.walletId, {$push: {cryptos: cryptoToAdd}}).exec();
+                    } else {
+                        Wallet.update({'cryptos.currency': crypto.currency}, {
+                            $inc:
+                                {'cryptos.$.currency_qty': -req.body.src_value}
+                        }).exec();
+                    }
                 }
             });
             break;
         case 'buy':
-            Wallet.findByIdAndUpdate(req.session.walletId, { $inc : { 'currency_qty' : -req.body.src_value } }, function (err, wallet) {
-                let crypto = wallet.cryptos.find(function (crypto) {
-                    return crypto.currency === req.body.dst_currency;
-                });
-                if (crypto === undefined) {
-                    let cryptoToAdd = { currency : req.body.dst_currency, currency_qty:req.body.dst_value };
-                    Wallet.findByIdAndUpdate(req.session.walletId, { $push: { cryptos: cryptoToAdd } }).exec();
-                } else {
-                    Wallet.update({ 'cryptos.currency':crypto.currency }, { $inc :
-                            { 'cryptos.$.currency_qty' : req.body.dst_value } }).exec();
+            Wallet.findById(req.session.walletId, function (err, wallet) {
+                if (wallet.currency_qty >= req.body.src_value) {
+                    wallet.update({ $inc: { 'currency_qty': -req.body.src_value } }).exec();
+
+                    let crypto = wallet.cryptos.find(function (crypto) {
+                        return crypto.currency === req.body.dst_currency;
+                    });
+                    if (crypto === undefined) {
+                        let cryptoToAdd = { currency: req.body.dst_currency, currency_qty: req.body.dst_value };
+                        Wallet.findByIdAndUpdate(req.session.walletId, { $push: { cryptos: cryptoToAdd } }).exec();
+                    } else {
+                        Wallet.update({ 'cryptos.currency': crypto.currency }, {
+                            $inc:
+                                { 'cryptos.$.currency_qty': req.body.dst_value }
+                        }).exec();
+                    }
                 }
             });
             break;
