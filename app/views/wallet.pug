@@ -1,0 +1,82 @@
+extends layouts/default
+block head
+  - var title = 'Portefeuille - CTS';
+  include includes/head
+
+block content
+  div.row.justify-content-center.mt-4
+    div.col-sm-12.col-md-5
+      div.card.bg-dark.text-white
+        div.card-header
+          h2.m-0 Portefeuille CTS
+        div.card-body
+          table.table.table-striped.table-dark
+            tbody
+              if wallet
+                each crypto in wallet.cryptos
+                  tr
+                    td #{crypto.currency}
+                    td #{crypto.currency_qty}
+
+    div.col-sm-12.col-md-5.mt-sm-4.mt-md-0
+      div.card.bg-dark.text-white
+        div.card-header
+          h2.m-0 Solde
+        div.card-body
+          h4.m-0.align-self-center #{wallet.currency_qty} €
+          div.mt-3
+            a.btn.btn-success.mr-4(data-toggle="modal" data-target="#recharger") Recharger mon compte
+            a.btn.btn-success(data-toggle="modal" data-target="#retrait") Retrait
+
+  div.row.justify-content-center.mt-4.pb-4
+    div.col-sm-12.col-md-10
+      div.card.bg-dark.text-white
+        div.card-header
+          h2.m-0 Historique des transactions
+        div.card-body
+          table.table.table-striped.table-dark
+            thead
+              tr
+                th Monnaie
+                th Quantité échangée
+                th Prix
+                th Date
+            tbody
+              each trade in trading
+                tr
+                  th.align-middle #{trade.dst_currency}
+                  th.align-middle #{trade.dst_value}
+                  th.align-middle #{trade.src_value} #{trade.src_currency}
+                  th.align-middle #{trade.date}
+
+  div.modal.fade#recharger(tabindex="-1" role="dialog" aria-hidden="true")
+    div.modal-dialog(role="document")
+      div.modal-content
+        form(method='POST')
+          input(type="hidden", name="_csrf", value=csrfToken)
+          div.modal-header
+            h2.modal-title Recharger mon compte
+            button.close(type="button" data-dismiss="modal" aria-label="Close")
+              span(aria-hidden="true") &times;
+          div.modal-body
+            label(for='recharger') Entrez le montant que vous voulez ajouter à votre portefeuille :
+            input.form-control(type='number', name='moneyAdd', placeholder='Exemple : 20', step="any", min=0, required)
+          div.modal-footer
+            button.btn.btn-success(type="submit") Envoyer
+            button.btn.btn-secondary(type="button" data-dismiss="modal") Annuler
+
+  div.modal.fade#retrait(tabindex="-1" role="dialog" aria-hidden="true")
+    div.modal-dialog(role="document")
+      div.modal-content
+        form(method='POST')
+          input(type="hidden", name="_csrf", value=csrfToken)
+          div.modal-header
+            h5.modal-title Effectuer un retrait
+            button.close(type="button" data-dismiss="modal" aria-label="Close")
+              span(aria-hidden="true") &times;
+          div.modal-body
+            label(for='retrait') Entrez le montant que vous voulez retirer de votre portefeuille :
+            input.form-control(type='number', name='moneyWithdraw', placeholder='Exemple : 20', step="any", min=0, max=wallet.currency_qty, required)
+          div.modal-footer
+            button.btn.btn-success(type="submit") Envoyer
+            button.btn.btn-secondary(type="button" data-dismiss="modal") Annuler

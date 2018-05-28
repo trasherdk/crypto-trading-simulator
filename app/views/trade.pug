@@ -1,0 +1,70 @@
+extends layouts/default
+block head
+  - var title = data.pair + ' - CTS';
+  include includes/head
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js")
+
+block content
+  div.row.justify-content-center.mt-4
+    div.col-sm-12.col-md-10
+      div.card.bg-dark.text-white
+        div.card-header
+          h2.m-0= data.pair
+        div.card-body
+          div.card-text
+            div.pb-4
+              canvas(id=data.id, height="300px")
+              script= data.chart
+            div.row
+              div.col-sm.d-flex
+                h3.m-0.align-self-center= data.price
+        div.card-footer.text-muted.text-right Mise à jour : #{data.lastUpdate}
+
+  div.row.justify-content-center.mt-4.pb-4
+    div.col-sm-12.col-md-5
+      div.card.bg-dark.text-white
+        div.card-header
+          h2.m-0 Acheter
+        div.card-body
+          div.card-text
+            form(method='POST')
+              input(type="hidden", name="_csrf", value=csrfToken)
+              input(type="hidden", name="action", value='buy')
+              input(type="hidden", name="src_currency", value='EUR')
+              input(type="hidden", name="dst_currency", value=data.currency)
+              .form-group
+                label(for='amount-buy') Montant (EUR)
+                input#amount-buy.form-control(name='src_value', type='number', placeholder='Combien voulez-vous dépenser ?', step="any", min=0, required)
+              .form-group
+                label(for='price-buy') Prix (#{data.currency})
+                input#price-buy.form-control(type='number', placeholder='À quel prix voulez-vous acheter ?', value=data.priceNumber, step="any", min=0, disabled, required)
+              .form-group
+                label(for='total-buy') Total en #{data.currency}
+                input#total-buy.form-control(name='dst_value', type='number', placeholder='Quantité obtenue', step="any", min=0, required)
+              button.btn.btn-success#button-buy(type='submit') Acheter
+        div.card-footer.text-muted Solde EUR :
+          span#balance-eur  #{data.balanceEUR}
+    div.col-sm-12.col-md-5.mt-sm-4.mt-md-0
+      div.card.bg-dark.text-white
+        div.card-header
+          h2.m-0 Vendre
+        div.card-body
+          div.card-text
+            form(method='POST')
+              input(type="hidden", name="_csrf", value=csrfToken)
+              input(type="hidden", name="action", value='sell')
+              input(type="hidden", name="src_currency", value=data.currency)
+              input(type="hidden", name="dst_currency", value='EUR')
+              .form-group
+                label(for='amount-sell') Montant (#{data.currency})
+                input#amount-sell.form-control(name='src_value', type='number', placeholder='Combien voulez-vous dépenser ?', step="any", min=0, required)
+              .form-group
+                label(for='price-sell') Prix (#{data.currency})
+                input#price-sell.form-control(type='number', placeholder='À quel prix voulez-vous acheter ?', value=data.priceNumber, step="any", min=0, disabled, required)
+              .form-group
+                label(for='total-sell') Total en EUR
+                input#total-sell.form-control(name='dst_value', type='number', placeholder='Quantité obtenue', step="any", min=0, required)
+              button.btn.btn-success#button-sell(type='submit') Vendre
+        div.card-footer.text-muted Solde #{data.currency} :
+          span#balance-currency  #{data.balanceCurrency}
+  script(src="/js/trade.js")

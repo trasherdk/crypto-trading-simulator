@@ -5,6 +5,12 @@
  */
 
 const home = require('../app/controllers/home');
+const market = require('../app/controllers/market');
+const wallet = require('../app/controllers/wallet');
+const auth = require('../app/controllers/auth');
+const profile = require('../app/controllers/profile');
+const historic = require('../app/controllers/historic');
+const user = require('../app/controllers/user');
 
 /**
  * Expose
@@ -13,6 +19,22 @@ const home = require('../app/controllers/home');
 module.exports = function (app, passport) {
 
   app.get('/', home.index);
+  app.get('/login', auth.login);
+  app.post('/login', auth.doLogin);
+  app.get('/sign-up', auth.signup);
+  app.post('/sign-up', auth.doRegister);
+  app.get('/market', market.index);
+
+  app.use('/', (req, res, next) => req.session.id ? next() : res.redirect('/login'));
+
+  app.get('/logout', auth.logout);
+  app.get('/market/:pair', market.pair);
+  app.post('/market/:pair', market.trade);
+  app.get('/wallet', wallet.index);
+  app.post('/wallet', wallet.update);
+  app.get('/historic', historic.index);
+  app.get('/profile', user.index);
+  app.post('/profile', user.update);
 
   /**
    * Error handling
@@ -22,7 +44,7 @@ module.exports = function (app, passport) {
     // treat as 404
     if (err.message
       && (~err.message.indexOf('not found')
-      || (~err.message.indexOf('Cast to ObjectId failed')))) {
+        || (~err.message.indexOf('Cast to ObjectId failed')))) {
       return next();
     }
     console.error(err.stack);

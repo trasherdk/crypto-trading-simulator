@@ -1,0 +1,15 @@
+doctype html
+html(lang="en")
+  block head
+
+  body.p-0
+    include ../includes/header
+    .container-fluid
+      .page-header
+        block page-header
+      .messages
+        include ../includes/messages
+      .content
+        block content
+    include ../includes/footer
+    include ../includes/foot

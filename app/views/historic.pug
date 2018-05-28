@@ -1,0 +1,26 @@
+extends layouts/default
+block head
+  - var title = 'Historique - CTS';
+  include includes/head
+
+block content
+  div.row.justify-content-center.mt-4.pb-4
+    div.col-sm-12.col-md-10
+      div.card.bg-dark.text-white
+        div.card-header
+          h2.m-0 Historique des transactions
+        div.card-body
+          table.table.table-striped.table-dark
+            thead
+              tr
+                th Monnaie
+                th Quantité échangée
+                th Prix
+                th Date
+            tbody
+              each trade in trading
+                tr
+                  th.align-middle #{trade.dst_currency}
+                  th.align-middle #{trade.dst_value}
+                  th.align-middle #{trade.src_value} #{trade.src_currency}
+                  th.align-middle #{trade.date}

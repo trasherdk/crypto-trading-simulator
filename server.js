@@ -17,6 +17,7 @@ const join = require('path').join;
 const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
+const session = require('express-session');
 const config = require('./config');
 
 const models = join(__dirname, 'app/models');
@@ -35,7 +36,8 @@ module.exports = {
 };
 
 // Bootstrap models
-fs.readdirSync(models)
+fs
+  .readdirSync(models)
   .filter(file => ~file.indexOf('.js'))
   .forEach(file => require(join(models, file)));
 
@@ -56,6 +58,6 @@ function listen () {
 }
 
 function connect () {
-  const options = {server: {socketOptions: {keepAlive: 1}}};
+  const options = { server: { socketOptions: { keepAlive: 1 } } };
   return mongoose.connect(config.db, options).connection;
 }

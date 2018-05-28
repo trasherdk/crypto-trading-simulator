@@ -1,0 +1,26 @@
+extends layouts/default
+block head
+  - var title = 'Marché - CTS';
+  include includes/head
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js")
+
+block content
+  div.row.px-3
+    each currency in data
+      div.col-sm-12.col-md-6.col-lg-4.p-4
+        div.card.bg-dark.text-white
+          div.card-header
+            h2.m-0= currency.pair
+          div.card-body
+            div.card-text
+              div.pb-4
+                canvas(id=currency.id)
+                script= currency.chart
+              div.row
+                div.col-sm.d-flex
+                  h3.m-0.align-self-center= currency.price
+                if isConnected
+                  div.col-sm.text-sm-right.mt-3.mt-sm-0
+                    a(href="/market/"+ currency.pair, target="_self")
+                      button.btn.btn-success.btn-md(type="button") Acheter/Vendre
+          div.card-footer.text-muted.text-right Mise à jour : #{currency.lastUpdate}

@@ -10,22 +10,19 @@ const User = mongoose.model('User');
  */
 
 module.exports = new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password'
+    usernameField: 'pseudo',
+    passwordField: 'pass'
   },
-  function (email, password, done) {
-    const options = {
-      criteria: {email: email}
-    };
-    User.load(options, function (err, user) {
-      if (err) return done(err);
-      if (!user) {
-        return done(null, false, { message: 'Unknown user' });
-      }
-      if (!user.authenticate(password)) {
-        return done(null, false, { message: 'Invalid password' });
-      }
-      return done(null, user);
+  function (username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+        if (err) { return done(err); }
+        if (!user) {
+            return done(null, false, { message: 'Incorrect username.' });
+        }
+        if (!user.authenticate(password)) {
+            return done(null, false, { message: 'Incorrect password.' });
+        }
+        return done(null, user);
     });
   }
 );
