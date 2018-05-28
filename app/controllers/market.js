@@ -185,7 +185,7 @@ var myChart = new Chart(ctx, {
 
     const data = {
     balanceCurrency: currencyList[1],
-    balanceEUR: currencyList[0],
+    balanceEUR: currencyList[0].toFixed(6),
     currency: pairFrom,
     pair: `${pairFrom}-EUR`,
     id: `${pairFrom}EUR`,

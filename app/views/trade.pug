@@ -33,15 +33,16 @@ block content
               input(type="hidden", name="dst_currency", value=data.currency)
               .form-group
                 label(for='amount-buy') Montant (EUR)
-                input#amount-buy.form-control(name='src_value', type='number', placeholder='Combien voulez-vous dépenser ?', step="any")
+                input#amount-buy.form-control(name='src_value', type='number', placeholder='Combien voulez-vous dépenser ?', step="any", required)
               .form-group
                 label(for='price-buy') Prix (#{data.currency})
-                input#price-buy.form-control(type='number', placeholder='À quel prix voulez-vous acheter ?', value=data.priceNumber, step="any")
+                input#price-buy.form-control(type='number', placeholder='À quel prix voulez-vous acheter ?', value=data.priceNumber, step="any", disabled, required)
               .form-group
                 label(for='total-buy') Total en #{data.currency}
-                input#total-buy.form-control(name='dst_value', type='number', placeholder='Quantité obtenue', step="any")
-              button.btn.btn-success(type='submit') Acheter
-        div.card-footer.text-muted Solde EUR : #{data.balanceEUR}
+                input#total-buy.form-control(name='dst_value', type='number', placeholder='Quantité obtenue', step="any", required)
+              button.btn.btn-success#button-buy(type='submit') Acheter
+        div.card-footer.text-muted Solde EUR :
+          span#balance-eur  #{data.balanceEUR}
     div.col-sm-12.col-md-5
       div.card.bg-dark.text-white
         div.card-header
@@ -55,13 +56,14 @@ block content
               input(type="hidden", name="dst_currency", value='EUR')
               .form-group
                 label(for='amount-sell') Montant (#{data.currency})
-                input#amount-sell.form-control(name='src_value', type='number', placeholder='Combien voulez-vous dépenser ?', step="any")
+                input#amount-sell.form-control(name='src_value', type='number', placeholder='Combien voulez-vous dépenser ?', step="any", required)
               .form-group
                 label(for='price-sell') Prix (#{data.currency})
-                input#price-sell.form-control(type='number', placeholder='À quel prix voulez-vous acheter ?', value=data.priceNumber, step="any")
+                input#price-sell.form-control(type='number', placeholder='À quel prix voulez-vous acheter ?', value=data.priceNumber, step="any", disabled, required)
               .form-group
                 label(for='total-sell') Total en EUR
-                input#total-sell.form-control(name='dst_value', type='number', placeholder='Quantité obtenue', step="any")
-              button.btn.btn-success(type='submit') Vendre
-        div.card-footer.text-muted Solde #{data.currency} : #{data.balanceCurrency}
+                input#total-sell.form-control(name='dst_value', type='number', placeholder='Quantité obtenue', step="any", required)
+              button.btn.btn-success#button-sell(type='submit') Vendre
+        div.card-footer.text-muted Solde #{data.currency} :
+          span#balance-currency  #{data.balanceCurrency}
   script(src="/js/trade.js")
