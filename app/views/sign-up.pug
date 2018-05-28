@@ -4,51 +4,51 @@ block head
   include includes/head
 
 block content
-  div.container.my-5
-    div.card.bg-dark.text-white
-      div.card-header
-        h2.m-0 S'enregistrer
-      div.card-body
-        if err
-          h6.alert.alert-danger #{err}
-        form(method='POST', action='/sign-up')
-          div.form-group
-            input(type="hidden", name="_csrf", value=csrfToken)
-            label(for='pseudo') Pseudo
-            input.form-control#pseudo(
-            type='text'
-            name='pseudo'
-            placeholder='Jean'
-            required
-            )
-            small.form-text.text-muted Ce pseudo doit être unique
-          div.form-group
-            label(for='mail') Mail
-            input.form-control#mail(
-            type='email'
-            name='mail'
-            placeholder='jean@mail.com'
-            required
-            )
-            small.form-text.text-muted Ce mail doit être unique
-          div.form-group
-            label(for='pass') Mot de passe
-            input.form-control#pass(
-            type='password'
-            name='pass'
-            placeholder='••••••••••••••••••'
-            required
-            )
-            small.form-text.text-muted Ne divulgez jamais votre mot de passe
-          div.form-group
-            label(for='pass') Mot de passe (confirmation)
-            input.form-control#passConfirm(
-            type='password'
-            name='passConfirm'
-            placeholder='••••••••••••••••••'
-            required
-            )
-            small.form-text.text-muted Tapez à nouveau votre mot de passe
-          button.btn.btn-light S'enregistrer
-          button.btn.btn-link
-            a(href='./login') Se connecter
+  div.row.justify-content-center.mt-4.pb-4
+    div.col-sm-12.col-md-6
+      div.card.bg-dark.text-white
+        div.card-header
+          h2.m-0 S'enregistrer
+        div.card-body
+          if err
+            h6.alert.alert-danger #{err}
+          form(method='POST', action='/sign-up')
+            div.form-group
+              input(type="hidden", name="_csrf", value=csrfToken)
+              label(for='pseudo') Pseudo
+              input.form-control#pseudo(
+              type='text'
+              name='pseudo'
+              placeholder='Jean'
+              required
+              )
+              small.form-text.text-muted Ce pseudo doit être unique
+            div.form-group
+              label(for='mail') Mail
+              input.form-control#mail(
+              type='email'
+              name='mail'
+              placeholder='jean@mail.com'
+              required
+              )
+              small.form-text.text-muted Ce mail doit être unique
+            div.form-group
+              label(for='pass') Mot de passe
+              input.form-control#pass(
+              type='password'
+              name='pass'
+              placeholder='••••••••••••••••••'
+              required
+              )
+              small.form-text.text-muted Ne divulgez jamais votre mot de passe
+            div.form-group
+              label(for='pass') Mot de passe (confirmation)
+              input.form-control#passConfirm(
+              type='password'
+              name='passConfirm'
+              placeholder='••••••••••••••••••'
+              required
+              )
+              small.form-text.text-muted Tapez à nouveau votre mot de passe
+            button.btn.btn-success(type="submit") S'enregistrer
+            a(href='./login').btn.btn-outline-light.ml-3 Se connecter

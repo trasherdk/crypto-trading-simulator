@@ -1,24 +1,24 @@
-const axios = require('axios');
-const moment = require('moment');
-const API_URL = 'https://min-api.cryptocompare.com/data';
-moment.locale('fr');
-const mongoose = require('mongoose');
+const axios = require("axios");
+const moment = require("moment");
+const API_URL = "https://min-api.cryptocompare.com/data";
+moment.locale("fr");
+const mongoose = require("mongoose");
 
-const Trading = mongoose.model('Trading');
-const User = mongoose.model('User');
-const Wallet = mongoose.model('Wallet');
+const Trading = mongoose.model("Trading");
+const User = mongoose.model("User");
+const Wallet = mongoose.model("Wallet");
 
 exports.index = (req, res) => {
   const cryptos = [
-    'BTC',
-    'ETH',
-    'XRP',
-    'BCH',
-    'EOS',
-    'ADA',
-    'LTC',
-    'XLM',
-    'TRX'
+    "BTC",
+    "ETH",
+    "XRP",
+    "BCH",
+    "EOS",
+    "ADA",
+    "LTC",
+    "XLM",
+    "TRX"
   ];
   const data = [];
 
@@ -42,7 +42,7 @@ exports.index = (req, res) => {
       const timeHistory = histo.reduce((acc, value) => {
         const { time } = value;
         lastUpdate = time;
-        const formatedTime = moment.unix(time).format('hh:mm');
+        const formatedTime = moment.unix(time).format("hh:mm");
         acc.push(`'${formatedTime}'`);
         return acc;
       }, []);
@@ -92,7 +92,7 @@ var myChart = new Chart(ctx, {
         chart: chartScript,
         lastUpdate: moment
           .unix(lastUpdate)
-          .startOf('minute')
+          .startOf("minute")
           .fromNow()
       });
       data.sort((a, b) => {
@@ -102,9 +102,9 @@ var myChart = new Chart(ctx, {
       });
     })
   ).then(() => {
-    const isConnected = typeof req.session.id !== 'undefined';
+    const isConnected = typeof req.session.id !== "undefined";
 
-    res.render('market', {
+    res.render("market", {
       data,
       isConnected
     });
@@ -113,7 +113,7 @@ var myChart = new Chart(ctx, {
 
 exports.pair = async (req, res) => {
   const { pair } = req.params;
-  const pairNames = pair.split('-');
+  const pairNames = pair.split("-");
   const pairFrom = pairNames[0].toUpperCase();
   const pairTo = pairNames[1].toUpperCase();
 
@@ -130,7 +130,7 @@ exports.pair = async (req, res) => {
   const timeHistory = histo.reduce((acc, value) => {
     const { time } = value;
     lastUpdate = time;
-    const formatedTime = moment.unix(time).format('hh:mm');
+    const formatedTime = moment.unix(time).format("hh:mm");
     acc.push(`'${formatedTime}'`);
     return acc;
   }, []);
@@ -174,16 +174,20 @@ var myChart = new Chart(ctx, {
       },
     }
 });`;
-    let wallet = await Wallet.findById(req.session.walletId, function (err, wallet) {
-        return wallet;
-    });
-    let balanceCurrency = wallet.cryptos.find(function (crypto) {
-        return crypto.currency === pairFrom;
-    });
-    balanceCurrency = (balanceCurrency !== undefined) ? balanceCurrency.currency_qty : 0;
-    const currencyList = [wallet.currency_qty, balanceCurrency];
+  let wallet = await Wallet.findById(req.session.walletId, function(
+    err,
+    wallet
+  ) {
+    return wallet;
+  });
+  let balanceCurrency = wallet.cryptos.find(function(crypto) {
+    return crypto.currency === pairFrom;
+  });
+  balanceCurrency =
+    balanceCurrency !== undefined ? balanceCurrency.currency_qty : 0;
+  const currencyList = [wallet.currency_qty, balanceCurrency];
 
-    const data = {
+  const data = {
     balanceCurrency: currencyList[1],
     balanceEUR: currencyList[0].toFixed(6),
     currency: pairFrom,
@@ -194,78 +198,91 @@ var myChart = new Chart(ctx, {
     chart: chartScript,
     lastUpdate: moment
       .unix(lastUpdate)
-      .startOf('minute')
+      .startOf("minute")
       .fromNow()
   };
 
-  const isConnected = typeof req.session.id !== 'undefined';
-  res.render('trade', {
+  const isConnected = typeof req.session.id !== "undefined";
+  res.render("trade", {
     data,
     isConnected,
     csrfToken: req.csrfToken()
   });
 };
 
-exports.trade = function (req, res) {
+exports.trade = function(req, res) {
+  let trade = new Trading({
+    src_currency: req.body.src_currency,
+    src_value: req.body.src_value,
+    dst_currency: req.body.dst_currency,
+    dst_value: req.body.dst_value,
+    date: Date.now()
+  });
 
-    let trade = new Trading({
-        src_currency: req.body.src_currency,
-        src_value: req.body.src_value,
-        dst_currency: req.body.dst_currency,
-        dst_value: req.body.dst_value,
-        date: Date.now()
-    });
+  trade.save();
 
-    trade.save();
+  User.findByIdAndUpdate(req.session.id, { $push: { trading: trade } }).exec();
+  // Wallet.findByIdAndUpdate(req.session.walletId, { $push: { cryptos: { currency:req.body.dst_currency, currency_qty:req.body.dst_value } } }).exec();
 
-    User.findByIdAndUpdate(req.session.id, { $push: { trading: trade } }).exec();
-    // Wallet.findByIdAndUpdate(req.session.walletId, { $push: { cryptos: { currency:req.body.dst_currency, currency_qty:req.body.dst_value } } }).exec();
+  switch (req.body.action) {
+    case "sell":
+      Wallet.findById(req.session.walletId, function(err, wallet) {
+        let currentCrypto = wallet.cryptos.find(function(crypto) {
+          return crypto.currency === req.body.src_currency;
+        });
+        if (currentCrypto.currency_qty >= req.body.src_value) {
+          wallet.update({ $inc: { currency_qty: req.body.dst_value } }).exec();
+          let crypto = wallet.cryptos.find(function(crypto) {
+            return crypto.currency === req.body.src_currency;
+          });
+          if (crypto === undefined) {
+            let cryptoToAdd = {
+              currency: req.body.src_currency,
+              currency_qty: req.body.src_value
+            };
+            Wallet.findByIdAndUpdate(req.session.walletId, {
+              $push: { cryptos: cryptoToAdd }
+            }).exec();
+          } else {
+            Wallet.update(
+              { "cryptos.currency": crypto.currency },
+              {
+                $inc: { "cryptos.$.currency_qty": -req.body.src_value }
+              }
+            ).exec();
+          }
+        }
+      });
+      break;
+    case "buy":
+      Wallet.findById(req.session.walletId, function(err, wallet) {
+        if (wallet.currency_qty >= req.body.src_value) {
+          wallet.update({ $inc: { currency_qty: -req.body.src_value } }).exec();
 
-    switch (req.body.action){
-        case 'sell':
-            Wallet.findById(req.session.walletId, function (err, wallet) {
-                let currentCrypto = wallet.cryptos.find(function (crypto) {
-                    return crypto.currency === req.body.src_currency;
-                });
-                if (currentCrypto.currency_qty >= req.body.src_value) {
-                    wallet.update({$inc: {'currency_qty': req.body.dst_value}}).exec();
-                    let crypto = wallet.cryptos.find(function (crypto) {
-                        return crypto.currency === req.body.src_currency;
-                    });
-                    if (crypto === undefined) {
-                        let cryptoToAdd = {currency: req.body.src_currency, currency_qty: req.body.src_value};
-                        Wallet.findByIdAndUpdate(req.session.walletId, {$push: {cryptos: cryptoToAdd}}).exec();
-                    } else {
-                        Wallet.update({'cryptos.currency': crypto.currency}, {
-                            $inc:
-                                {'cryptos.$.currency_qty': -req.body.src_value}
-                        }).exec();
-                    }
-                }
-            });
-            break;
-        case 'buy':
-            Wallet.findById(req.session.walletId, function (err, wallet) {
-                if (wallet.currency_qty >= req.body.src_value) {
-                    wallet.update({ $inc: { 'currency_qty': -req.body.src_value } }).exec();
-
-                    let crypto = wallet.cryptos.find(function (crypto) {
-                        return crypto.currency === req.body.dst_currency;
-                    });
-                    if (crypto === undefined) {
-                        let cryptoToAdd = { currency: req.body.dst_currency, currency_qty: req.body.dst_value };
-                        Wallet.findByIdAndUpdate(req.session.walletId, { $push: { cryptos: cryptoToAdd } }).exec();
-                    } else {
-                        Wallet.update({ 'cryptos.currency': crypto.currency }, {
-                            $inc:
-                                { 'cryptos.$.currency_qty': req.body.dst_value }
-                        }).exec();
-                    }
-                }
-            });
-            break;
-        default:
-          break;
-    }
-    return res.redirect(req.originalUrl);
+          let crypto = wallet.cryptos.find(function(crypto) {
+            return crypto.currency === req.body.dst_currency;
+          });
+          if (crypto === undefined) {
+            let cryptoToAdd = {
+              currency: req.body.dst_currency,
+              currency_qty: req.body.dst_value
+            };
+            Wallet.findByIdAndUpdate(req.session.walletId, {
+              $push: { cryptos: cryptoToAdd }
+            }).exec();
+          } else {
+            Wallet.update(
+              { "cryptos.currency": crypto.currency },
+              {
+                $inc: { "cryptos.$.currency_qty": req.body.dst_value }
+              }
+            ).exec();
+          }
+        }
+      });
+      break;
+    default:
+      break;
+  }
+  return res.redirect(req.originalUrl);
 };

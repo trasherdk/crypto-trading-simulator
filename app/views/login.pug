@@ -4,31 +4,31 @@ block head
   include includes/head
 
 block content
-  div.container.my-5
-    div.card.bg-dark.text-white
-      div.card-header
-        h2.m-0 Se connecter
-      div.card-body
-        form(method='POST', action='/login')
-          input(type="hidden", name="_csrf", value=csrfToken)
-          div.form-group
-            label(for='pseudo') Pseudo
-            input.form-control#pseudo(
-            type='text'
-            name='pseudo'
-            placeholder='Jean'
-            required
-            )
-            small.form-text.text-muted Votre pseudo de connexion
-          div.form-group
-            label(for='pass') Mot de passe
-            input.form-control#pass(
-            type='password'
-            name='pass'
-            placeholder='••••••••••••••••••'
-            required
-            )
-            small.form-text.text-muted Ne divulgez jamais votre mot de passe
-          button.btn.btn-light Se connecter
-          button.btn.btn-link
-            a(href='./sign-up') S'inscrire
+  div.row.justify-content-center.mt-4.pb-4
+    div.col-sm-12.col-md-6
+      div.card.bg-dark.text-white
+        div.card-header
+          h2.m-0 Se connecter
+        div.card-body
+          form(method='POST', action='/login')
+            input(type="hidden", name="_csrf", value=csrfToken)
+            div.form-group
+              label(for='pseudo') Pseudo
+              input.form-control#pseudo(
+              type='text'
+              name='pseudo'
+              placeholder='Jean'
+              required
+              )
+              small.form-text.text-muted Votre pseudo de connexion
+            div.form-group
+              label(for='pass') Mot de passe
+              input.form-control#pass(
+              type='password'
+              name='pass'
+              placeholder='••••••••••••••••••'
+              required
+              )
+              small.form-text.text-muted Ne divulgez jamais votre mot de passe
+            button.btn.btn-success(type="submit") Se connecter
+            a(href='./sign-up').btn.btn-outline-light.ml-3 S'inscrire
