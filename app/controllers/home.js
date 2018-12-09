@@ -11,6 +11,7 @@ exports.index = function(req, res) {
 // TEST MONGOOSE (laisser en commentaire SVP)
 //
 // const mongoose = require('mongoose');
+// mongoose.Promise = require('bluebird');
 //
 // const Trading = mongoose.model('Trading');
 // const User = mongoose.model('User');

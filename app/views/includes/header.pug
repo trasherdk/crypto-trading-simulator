@@ -6,21 +6,21 @@
     #navbarNav.collapse.navbar-collapse
       ul.navbar-nav.mr-auto
         li.nav-item
-          a.nav-link(href="/market") Marché
+          a.nav-link(href="/market").btn.navbar-text.font-weight-bold Market
       if isConnected
         ul.navbar-nav
           li.nav-item
-            a.nav-link(href="/wallet") Portefeuille
+            a.nav-link(href="/wallet").btn.navbar-text.font-weight-bold Wallet
           li.nav-item
-            a.nav-link(href="/historic") Historique
+            a.nav-link(href="/historic").btn.navbar-text.font-weight-bold Transaction History
           li.nav-item
-            a.nav-link(href="/profile") Profil
+            a.nav-link(href="/profile").btn.navbar-text.font-weight-bold Profile
           li.nav-item
-            a.nav-link(href="/logout") Déconnexion
+            a.nav-link(href="/logout").btn.navbar-text.font-weight-bold Logout
       else
         ul.navbar-nav
           li.nav-item.mr-2
-            a.nav-link(href="/login").navbar-text Connexion
+            a.nav-link(href="/login").navbar-text Login
           li.nav-item
             a(href="/sign-up")
-              button.btn.btn-outline-success.font-weight-bold Inscription
+              button.btn.btn-outline-success.font-weight-bold Signup

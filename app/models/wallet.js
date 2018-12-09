@@ -4,6 +4,7 @@
  */
 
 const mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
 const Schema = mongoose.Schema;
 
 /**
@@ -14,7 +15,8 @@ const WalletSchema = new Schema({
   currency_qty: { type: Schema.Types.Number, default: 0 },
   cryptos: [{
     currency:{ type: String, default: '' },
-    currency_qty: { type: Schema.Types.Number, default: 0 }
+    currency_qty: { type: Schema.Types.Number, default: 0 },
+    currency_price: { type: Schema.Types.Number, default: 0 }
   }]
 });
 

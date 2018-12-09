@@ -1,6 +1,6 @@
 extends layouts/default
 block head
-  - var title = 'Portefeuille - CTS';
+  - var title = 'Wallet - CTS';
   include includes/head
 
 block content
@@ -8,44 +8,51 @@ block content
     div.col-sm-12.col-md-5
       div.card.bg-dark.text-white
         div.card-header
-          h2.m-0 Portefeuille CTS
+          h2.m-0 Wallet CTS
         div.card-body
           table.table.table-striped.table-dark
             tbody
               if wallet
                 each crypto in wallet.cryptos
                   tr
-                    td #{crypto.currency}
+                    td
+                      a(href="/market/"+ crypto.currency + "-EUR", target="_self") #{crypto.currency}
                     td #{crypto.currency_qty}
+                    td #{crypto.currency_price}
 
     div.col-sm-12.col-md-5.mt-sm-4.mt-md-0
       div.card.bg-dark.text-white
         div.card-header
-          h2.m-0 Solde
+          h2.m-0 Balance
         div.card-body
           h4.m-0.align-self-center #{wallet.currency_qty} €
           div.mt-3
-            a.btn.btn-success.mr-4(data-toggle="modal" data-target="#recharger") Recharger mon compte
-            a.btn.btn-success(data-toggle="modal" data-target="#retrait") Retrait
+            a.btn.btn-success.mr-4(data-toggle="modal" data-target="#recharger") Reload my account
+            a.btn.btn-success(data-toggle="modal" data-target="#retrait") Withdrawal
 
   div.row.justify-content-center.mt-4.pb-4
     div.col-sm-12.col-md-10
       div.card.bg-dark.text-white
         div.card-header
-          h2.m-0 Historique des transactions
+          h2.m-0 Transaction History
         div.card-body
           table.table.table-striped.table-dark
             thead
               tr
-                th Monnaie
-                th Quantité échangée
-                th Prix
+                th Currency
+                th Quantity
+                th Price
+                th Total
                 th Date
             tbody
               each trade in trading
                 tr
                   th.align-middle #{trade.dst_currency}
                   th.align-middle #{trade.dst_value}
+                  if (trade.dst_currency === "EUR")
+                    th.align-middle #{trade.dst_value / trade.src_value} #{trade.dst_currency}
+                  else
+                    th.align-middle #{trade.src_value / trade.dst_value} #{trade.src_currency}
                   th.align-middle #{trade.src_value} #{trade.src_currency}
                   th.align-middle #{trade.date}
 
@@ -55,15 +62,15 @@ block content
         form(method='POST')
           input(type="hidden", name="_csrf", value=csrfToken)
           div.modal-header
-            h2.modal-title Recharger mon compte
+            h2.modal-title Reload my account
             button.close(type="button" data-dismiss="modal" aria-label="Close")
               span(aria-hidden="true") &times;
           div.modal-body
-            label(for='recharger') Entrez le montant que vous voulez ajouter à votre portefeuille :
+            label(for='recharger') Enter the amount you want to add to your wallet:
             input.form-control(type='number', name='moneyAdd', placeholder='Exemple : 20', step="any", min=0, required)
           div.modal-footer
-            button.btn.btn-success(type="submit") Envoyer
-            button.btn.btn-secondary(type="button" data-dismiss="modal") Annuler
+            button.btn.btn-success(type="submit") Submit
+            button.btn.btn-secondary(type="button" data-dismiss="modal") Cancel
 
   div.modal.fade#retrait(tabindex="-1" role="dialog" aria-hidden="true")
     div.modal-dialog(role="document")
@@ -71,12 +78,12 @@ block content
         form(method='POST')
           input(type="hidden", name="_csrf", value=csrfToken)
           div.modal-header
-            h5.modal-title Effectuer un retrait
+            h5.modal-title Make a withdrawal
             button.close(type="button" data-dismiss="modal" aria-label="Close")
               span(aria-hidden="true") &times;
           div.modal-body
-            label(for='retrait') Entrez le montant que vous voulez retirer de votre portefeuille :
+            label(for='retrait') Enter the amount you want to withdraw from your wallet :
             input.form-control(type='number', name='moneyWithdraw', placeholder='Exemple : 20', step="any", min=0, max=wallet.currency_qty, required)
           div.modal-footer
-            button.btn.btn-success(type="submit") Envoyer
-            button.btn.btn-secondary(type="button" data-dismiss="modal") Annuler
+            button.btn.btn-success(type="submit") Submit
+            button.btn.btn-secondary(type="button" data-dismiss="modal") Cancel

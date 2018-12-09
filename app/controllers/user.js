@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+mongoose.Promise = require('bluebird');
 const User = mongoose.model('User');
 
 exports.index = function (req, res) {

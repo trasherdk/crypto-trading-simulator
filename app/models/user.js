@@ -4,6 +4,7 @@
  */
 
 const mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
 // const userPlugin = require('mongoose-user');
 const passportLocalMongoose = require('passport-local-mongoose');
 const { Schema } = mongoose;

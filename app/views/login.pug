@@ -1,6 +1,6 @@
 extends layouts/default
 block head
-  - var title = 'Connexion - CTS';
+  - var title = 'Login - CTS';
   include includes/head
 
 block content
@@ -8,27 +8,27 @@ block content
     div.col-sm-12.col-md-6
       div.card.bg-dark.text-white
         div.card-header
-          h2.m-0 Se connecter
+          h2.m-0 Login
         div.card-body
           form(method='POST', action='/login')
             input(type="hidden", name="_csrf", value=csrfToken)
             div.form-group
-              label(for='pseudo') Pseudo
+              label(for='pseudo') Username
               input.form-control#pseudo(
               type='text'
               name='pseudo'
-              placeholder='Jean'
+              placeholder='JDoe'
               required
               )
-              small.form-text.text-muted Votre pseudo de connexion
+              small.form-text.text-muted Your login name
             div.form-group
-              label(for='pass') Mot de passe
+              label(for='pass') Password
               input.form-control#pass(
               type='password'
               name='pass'
               placeholder='••••••••••••••••••'
               required
               )
-              small.form-text.text-muted Ne divulgez jamais votre mot de passe
-            button.btn.btn-success(type="submit") Se connecter
-            a(href='./sign-up').btn.btn-outline-light.ml-3 S'inscrire
+              small.form-text.text-muted Never share your password
+            button.btn.btn-success(type="submit") Login
+            a(href='./sign-up').btn.btn-outline-light.ml-3 Sign Up

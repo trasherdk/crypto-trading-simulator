@@ -1,6 +1,6 @@
 extends layouts/default
 block head
-  - var title = 'Historique - CTS';
+  - var title = 'Historic - CTS';
   include includes/head
 
 block content
@@ -8,14 +8,14 @@ block content
     div.col-sm-12.col-md-10
       div.card.bg-dark.text-white
         div.card-header
-          h2.m-0 Historique des transactions
+          h2.m-0 Transaction History
         div.card-body
           table.table.table-striped.table-dark
             thead
               tr
-                th Monnaie
-                th Quantité échangée
-                th Prix
+                th Currency
+                th Quantity exchanged
+                th Price
                 th Date
             tbody
               each trade in trading

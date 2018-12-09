@@ -2,6 +2,7 @@
  * Module dependencies.
  */
 const mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
 const LocalStrategy = require('passport-local').Strategy;
 const User = mongoose.model('User');
 

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+mongoose.Promise = require('bluebird');
 
 const Wallet = mongoose.model("Wallet");
 const User = mongoose.model("User");
@@ -26,7 +27,7 @@ exports.index = (req, res) => {
       })
       .exec(function(err, user) {
         const isConnected = typeof req.session.id !== "undefined";
-        wallet.currency_qty = wallet.currency_qty.toFixed(6);
+        wallet.currency_qty = wallet.currency_qty.toFixed(2);
         res.render("wallet", {
           wallet,
           trading: user.trading.sort(compare),

@@ -1,56 +1,68 @@
 const axios = require("axios");
 const moment = require("moment");
 const API_URL = "https://min-api.cryptocompare.com/data";
-moment.locale("fr");
+moment.locale("en");
 const mongoose = require("mongoose");
+mongoose.Promise = require('bluebird');
 
 const Trading = mongoose.model("Trading");
 const User = mongoose.model("User");
 const Wallet = mongoose.model("Wallet");
 
 exports.index = (req, res) => {
-  const cryptos = [
-    "BTC",
-    "ETH",
-    "XRP",
-    "BCH",
-    "EOS",
-    "ADA",
-    "LTC",
-    "XLM",
-    "TRX"
+	const cryptos = [
+		"BTC",
+		"XMR",
+		"ETH",
+//		"TUBE",
+//		"ETHB",
+//		"GRFT",
+//		"AEON",
+//		"XRP",
+//		"DASH",
+//		"BCH",
+//		"BCHSV",
+//		"BCHABC",
+//		"BTCD",
+//		"LTC",
+//		"EOS",
+//		"ADA",
+//		"XLM",
+//		"TRX"
   ];
   const data = [];
 
   Promise.all(
     cryptos.map(async crypto => {
       const pricePromise = axios.get(
-        `${API_URL}/price?fsym=${crypto}&tsyms=EUR`
+        `${API_URL}/price?fsym=${crypto}&tsyms=EUR,USD`
       );
       const histoPromise = axios.get(
-        `${API_URL}/histohour?fsym=${crypto}&tsym=EUR&limit=24`
+        `${API_URL}/histohour?fsym=${crypto}&tsym=EUR&limit=36`
       );
-
       const {
-        data: { EUR: price }
+        data: { EUR: eurprice, USD: usdprice }
       } = await pricePromise;
       const {
         data: { Data: histo }
       } = await histoPromise;
 
+
       let lastUpdate = 0;
       const timeHistory = histo.reduce((acc, value) => {
         const { time } = value;
         lastUpdate = time;
-        const formatedTime = moment.unix(time).format("hh:mm");
+        const formatedTime = moment.unix(time).format("HH:mm");
         acc.push(`'${formatedTime}'`);
         return acc;
       }, []);
+      
       const valuesHistory = histo.reduce((acc, value) => {
         const { close } = value;
         acc.push(close);
         return acc;
       }, []);
+      
       const chartScript = `var ctx = document.getElementById('${crypto}EUR');
 var myChart = new Chart(ctx, {
     type: 'line',
@@ -58,7 +70,7 @@ var myChart = new Chart(ctx, {
         labels: [${timeHistory}],
         datasets: [{
             backgroundColor: 'rgba(36, 166, 71, 0.3)',
-            label: 'Valeur',
+            label: 'Value',
             data: [${valuesHistory}],
             borderColor: 'rgba(36, 166, 71, 1)',
             borderWidth: 3
@@ -85,22 +97,26 @@ var myChart = new Chart(ctx, {
       },
     }
 });`;
+
+
       data.push({
         pair: `${crypto}-EUR`,
         id: `${crypto}EUR`,
-        price: `${price} €`,
+        eurprice: `${eurprice} €`,
+        usdprice: `${usdprice} $`,
         chart: chartScript,
         lastUpdate: moment
           .unix(lastUpdate)
           .startOf("minute")
           .fromNow()
       });
-      data.sort((a, b) => {
+/**/      data.sort((a, b) => {
         const indexA = cryptos.indexOf(a.pair.substr(0, 3));
         const indexB = cryptos.indexOf(b.pair.substr(0, 3));
+        console.log(indexA,indexB);
         return indexA === indexB ? 0 : indexA < indexB ? -1 : 1;
       });
-    })
+/**/    })
   ).then(() => {
     const isConnected = typeof req.session.id !== "undefined";
 
@@ -118,12 +134,12 @@ exports.pair = async (req, res) => {
   const pairTo = pairNames[1].toUpperCase();
 
   const {
-    data: { EUR: price }
-  } = await axios.get(`${API_URL}/price?fsym=${pairFrom}&tsyms=${pairTo}`);
+    data: { EUR: eurprice, USD: usdprice }
+  } = await axios.get(`${API_URL}/price?fsym=${pairFrom}&tsyms=${pairTo},USD`);
   const {
     data: { Data: histo }
   } = await axios.get(
-    `${API_URL}/histohour?fsym=${pairFrom}&tsym=${pairTo}&limit=24`
+    `${API_URL}/histohour?fsym=${pairFrom}&tsym=${pairTo}&limit=36`
   );
 
   let lastUpdate = 0;
@@ -146,7 +162,7 @@ var myChart = new Chart(ctx, {
         labels: [${timeHistory}],
         datasets: [{
             backgroundColor: 'rgba(36, 166, 71, 0.3)',
-            label: 'Valeur',
+            label: 'Value',
             data: [${valuesHistory}],
             borderColor: 'rgba(36, 166, 71, 1)',
             borderWidth: 3
@@ -193,15 +209,16 @@ var myChart = new Chart(ctx, {
     currency: pairFrom,
     pair: `${pairFrom}-EUR`,
     id: `${pairFrom}EUR`,
-    priceNumber: price,
-    price: `${price} €`,
+    priceNumber: eurprice,
+    eurprice: `${eurprice} €`,
+    usdprice: `${usdprice} $`,
     chart: chartScript,
     lastUpdate: moment
       .unix(lastUpdate)
       .startOf("minute")
       .fromNow()
   };
-
+console.log(data.currencyList);
   const isConnected = typeof req.session.id !== "undefined";
   res.render("trade", {
     data,

@@ -1,7 +1,7 @@
 extends layouts/default
 
 block head
-  - var title = 'Profil - CTS';
+  - var title = 'Profile - CTS';
   include includes/head
 
 block content
@@ -9,17 +9,17 @@ block content
     div.col-sm-12.col-md-6
       div.card.bg-dark.text-white
         div.card-header
-          h2.m-0 Profil
+          h2.m-0 Profile
         div.card-body
           form(method="POST", action="profile")
             input(type="hidden", name="_csrf", value=csrfToken)
             div.form-group
-              label(for='pseudo') Pseudo
+              label(for='pseudo') Username
               if user
                 input.form-control#pseudo(
                 type='text'
                 name='pseudo'
-                placeholder='Jean'
+                placeholder='JDoe'
                 value=user.username
                 )
               else
@@ -28,45 +28,45 @@ block content
                 name='pseudo'
                 placeholder='Jean'
                 )
-              small.form-text.text-muted Votre pseudo de connexion
+              small.form-text.text-muted Your login name
             div.form-group
-              label(for='lastPass') Ancien mot de passe
+              label(for='lastPass') Old Password
               input.form-control#lastPass(
               type='password'
               name='lastPass'
               placeholder='••••••••••••••••••'
               )
-              small.form-text.text-muted Ne divulgez jamais votre mot de passe (même l'ancien)
+              small.form-text.text-muted Never share your password (not even the old one)
             div.form-group
-              label(for='mail') Nouveau mail
+              label(for='mail') New mail
               if user
                 input.form-control#mail(
                 type='mail'
                 name='mail'
-                placeholder='Jean@mail.com'
+                placeholder='John.Doe@example.com'
                 value=user.email
                 )
               else
                 input.form-control#mail(
                 type='mail'
                 name='mail'
-                placeholder='Jean@mail.com'
+                placeholder='John.Doe@example.com'
                 )
-              small.form-text.text-muted Ce mail doit être unique
+              small.form-text.text-muted This email must be unique
             div.form-group
-              label(for='pass') Nouveau mot de passe
+              label(for='pass') New Password
               input.form-control#pass(
               type='password'
               name='pass'
               placeholder='••••••••••••••••••'
               )
-              small.form-text.text-muted Ne divulguez jamais votre nouveau mot de passe
+              small.form-text.text-muted Never share your password
             div.form-group
-              label(for='pass') Nouveau mot de passe (confirmation)
+              label(for='pass') Password (confirmation)
               input.form-control#passConfirm(
               type='password'
               name='passConfirm'
               placeholder='••••••••••••••••••'
               )
-              small.form-text.text-muted Tapez à nouveau votre nouveau mot de passe
-            button.btn.btn-light Modifier mes données
+              small.form-text.text-muted Type your new password again
+            button.btn.btn-light Update

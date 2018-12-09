@@ -16,12 +16,13 @@ const fs = require('fs');
 const join = require('path').join;
 const express = require('express');
 const mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
 const passport = require('passport');
 const session = require('express-session');
 const config = require('./config');
 
 const models = join(__dirname, 'app/models');
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3009;
 
 const app = express();
 const connection = connect();

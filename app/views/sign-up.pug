@@ -1,6 +1,6 @@
 extends layouts/default
 block head
-  - var title = 'Inscription - CTS';
+  - var title = 'Sign Up - CTS';
   include includes/head
 
 block content
@@ -8,47 +8,47 @@ block content
     div.col-sm-12.col-md-6
       div.card.bg-dark.text-white
         div.card-header
-          h2.m-0 S'enregistrer
+          h2.m-0 Sign Up
         div.card-body
           if err
             h6.alert.alert-danger #{err}
           form(method='POST', action='/sign-up')
             div.form-group
               input(type="hidden", name="_csrf", value=csrfToken)
-              label(for='pseudo') Pseudo
+              label(for='pseudo') Username
               input.form-control#pseudo(
               type='text'
               name='pseudo'
-              placeholder='Jean'
+              placeholder='jdoe'
               required
               )
-              small.form-text.text-muted Ce pseudo doit être unique
+              small.form-text.text-muted This username must be unique
             div.form-group
-              label(for='mail') Mail
+              label(for='mail') Mail address
               input.form-control#mail(
               type='email'
               name='mail'
-              placeholder='jean@mail.com'
+              placeholder='John.Doe@example.com'
               required
               )
-              small.form-text.text-muted Ce mail doit être unique
+              small.form-text.text-muted This email must be unique
             div.form-group
-              label(for='pass') Mot de passe
+              label(for='pass') Password
               input.form-control#pass(
               type='password'
               name='pass'
               placeholder='••••••••••••••••••'
               required
               )
-              small.form-text.text-muted Ne divulgez jamais votre mot de passe
+              small.form-text.text-muted Never share your password
             div.form-group
-              label(for='pass') Mot de passe (confirmation)
+              label(for='pass') Password (confirmation)
               input.form-control#passConfirm(
               type='password'
               name='passConfirm'
               placeholder='••••••••••••••••••'
               required
               )
-              small.form-text.text-muted Tapez à nouveau votre mot de passe
-            button.btn.btn-success(type="submit") S'enregistrer
-            a(href='./login').btn.btn-outline-light.ml-3 Se connecter
+              small.form-text.text-muted Type your password again
+            button.btn.btn-success(type="submit") Register
+            a(href='./login').btn.btn-outline-light.ml-3 To login
