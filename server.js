@@ -27,14 +27,12 @@ const port = process.env.PORT || 3009;
 const app = express();
 const connection = connect();
 
-/**
- * Expose
- */
+connection
+  .on('error', console.error.bind(console, 'connection error:'))
+  .on('disconnected', connect)
+  .once('open', listen);
 
-module.exports = {
-  app,
-  connection
-};
+
 
 // Bootstrap models
 fs
@@ -47,10 +45,7 @@ require('./config/passport')(passport);
 require('./config/express')(app, passport);
 require('./config/routes')(app, passport);
 
-connection
-  .on('error', console.log)
-  .on('disconnected', connect)
-  .once('open', listen);
+//console.log(connection);
 
 function listen () {
   if (app.get('env') === 'test') return;
@@ -59,6 +54,27 @@ function listen () {
 }
 
 function connect () {
-  const options = { server: { socketOptions: { keepAlive: 1 } } };
-  return mongoose.connect(config.db, options).connection;
+  const options = {
+  	keepAlive: 1,
+  	useNewUrlParser: true
+  };
+  
+  console.log("connect()", options, config);
+  
+  mongoose.connect(config.db, options, function(error){
+  	
+  	console.log("Connect Error", error);
+  	
+  });
+  
+  return mongoose.connection;
 }
+
+/**
+ * Expose
+ */
+
+module.exports = {
+  app,
+  connection
+};

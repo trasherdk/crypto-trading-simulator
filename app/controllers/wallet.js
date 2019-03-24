@@ -40,6 +40,7 @@ exports.index = (req, res) => {
 
 exports.update = (req, res) => {
   let money = req.body.moneyAdd ? req.body.moneyAdd : -req.body.moneyWithdraw;
+  money = money.toFixed(2)
   // Wallet.findByIdAndUpdate(req.session.walletId, { $inc : { 'currency_qty' : money } }).exec();
   Wallet.findById(req.session.walletId, function(err, wallet) {
     if (req.body.moneyWithdraw) {

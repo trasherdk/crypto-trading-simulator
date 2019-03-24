@@ -18,12 +18,12 @@ block content
                 script= currency.chart
               div.row
                 div.col-sm.d-flex
-                  h3.m-0.align-self-center= currency.eurprice
+                  h3.m-0.align-self-center.market-price= currency.eurprice
                 div.col-sm.d-flex
-                  h3.m-0.align-self-center= currency.usdprice
+                  h3.m-0.align-self-center.market-price= currency.usdprice
               div.row
                 if isConnected
                   div.col-sm.text-sm-right.mt-3.mt-sm-0
                     a(href="/market/"+ currency.pair, target="_self")
-                      button.btn.btn-success.btn-md(type="button") Buy/Sell
+                      button.btn.btn-success.btn-md.market-button(type="button") Buy/Sell
           div.card-footer.text-muted.text-right Last updated : #{currency.lastUpdate}

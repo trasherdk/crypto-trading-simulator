@@ -5,6 +5,7 @@
 
 module.exports = {
   db: 'mongodb://localhost/crypto_db_dev',
+/**
   facebook: {
     clientID: 'APP_ID',
     clientSecret: 'SECRET',
@@ -25,4 +26,5 @@ module.exports = {
       'https://www.google.com/m8/feeds',
     ]
   }
+**/
 };

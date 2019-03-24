@@ -52,3 +52,26 @@ body {
 .text1em {
 	font-size: 1em;
 }
+
+
+.card-header h3, .market-price {
+	font-size: 1rem;
+}
+
+.card-body {
+	padding: 0.4rem;
+}
+
+.card-footer {
+	padding: 0.5rem 1.25rem;
+	margin: 0.2rem;
+}
+.market-button {
+	font-size: 1rem;
+	padding: .20rem .60rem;
+}
+
+/** target trading view **/
+h2.m-0 {
+	font-size: 1.4rem;
+}

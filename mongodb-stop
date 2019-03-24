@@ -2,5 +2,13 @@
 
 pid=`ps -o pid,command ax | grep mongod | awk '!/awk/ && !/grep/ {print $1}'`;
 if [ "${pid}" != "" ]; then
-    kill -2 ${pid};
+#	echo -e "running as pid 2 ${pid}\n"
+#    kill -2 ${pid};
+fi
+
+pid=$(pgrep mongod)
+
+if [ ! "${pid}" = "" -a -f /proc/${pid}/exe ]; then
+	echo -e "Found pid ${pid} at $(ls -1 /proc/${pid}/exe) \n"
+	kill -2 ${pid}
 fi

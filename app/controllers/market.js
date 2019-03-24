@@ -14,13 +14,14 @@ exports.index = (req, res) => {
 		"BTC",
 		"XMR",
 		"ETH",
+		"ETC",
+		"BCH",
 //		"TUBE",
 //		"ETHB",
 //		"GRFT",
 //		"AEON",
 //		"XRP",
 //		"DASH",
-//		"BCH",
 //		"BCHSV",
 //		"BCHABC",
 //		"BTCD",
@@ -35,10 +36,10 @@ exports.index = (req, res) => {
   Promise.all(
     cryptos.map(async crypto => {
       const pricePromise = axios.get(
-        `${API_URL}/price?fsym=${crypto}&tsyms=EUR,USD`
+        `${API_URL}/price?e=Kraken&fsym=${crypto}&tsyms=EUR,USD`
       );
       const histoPromise = axios.get(
-        `${API_URL}/histohour?fsym=${crypto}&tsym=EUR&limit=36`
+        `${API_URL}/histohour?e=Kraken&fsym=${crypto}&tsym=EUR&limit=36`
       );
       const {
         data: { EUR: eurprice, USD: usdprice }
@@ -135,11 +136,11 @@ exports.pair = async (req, res) => {
 
   const {
     data: { EUR: eurprice, USD: usdprice }
-  } = await axios.get(`${API_URL}/price?fsym=${pairFrom}&tsyms=${pairTo},USD`);
+  } = await axios.get(`${API_URL}/price?e=Kraken&fsym=${pairFrom}&tsyms=${pairTo},USD`);
   const {
     data: { Data: histo }
   } = await axios.get(
-    `${API_URL}/histohour?fsym=${pairFrom}&tsym=${pairTo}&limit=36`
+    `${API_URL}/histohour?e=Kraken&fsym=${pairFrom}&tsym=${pairTo}&limit=36`
   );
 
   let lastUpdate = 0;
