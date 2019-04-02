@@ -16,9 +16,9 @@ head			head
 					meta(name="viewport", content="width=device-width,initial-scale=1")
 
 					if title
-					title= title
+						title= title
 					else
-					title= pkg.name
+						title= pkg.name
 
 					meta(name="description", content=pkg.description)
 
