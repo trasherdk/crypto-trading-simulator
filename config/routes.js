@@ -18,6 +18,7 @@ const user = require('../app/controllers/user');
 
 module.exports = function (app, passport) {
 
+  /* All routes that DON't require a valid login */
   app.get('/', home.index);
   app.get('/login', auth.login);
   app.post('/login', auth.doLogin);
@@ -25,8 +26,10 @@ module.exports = function (app, passport) {
   app.post('/sign-up', auth.doRegister);
   app.get('/market', market.index);
 
+  /* Check if user is logged in */
   app.use('/', (req, res, next) => req.session.id ? next() : res.redirect('/login'));
-
+  
+  /* All routes that require a valid login */
   app.get('/logout', auth.logout);
   app.get('/market/:pair', market.pair);
   app.post('/market/:pair', market.trade);
