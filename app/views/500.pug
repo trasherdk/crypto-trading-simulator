@@ -4,5 +4,5 @@ block page-header
   h2 500 - Oops! Internal server error occured
 
 block content
-  if env === 'development'
+  if env !== 'production'
     pre #{ error }

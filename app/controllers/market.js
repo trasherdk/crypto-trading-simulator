@@ -16,6 +16,7 @@ exports.index = (req, res) => {
 		"ETH",
 		"ETC",
 		"BCH",
+//		"BSV",
 //		"TUBE",
 //		"ETHB",
 //		"GRFT",

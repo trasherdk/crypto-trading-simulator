@@ -20,16 +20,16 @@ exports.signup = function (req, res) {
 exports.doRegister = function (req, res) {
     let data = req.body;
     if (data.pseudo === '' || data.mail === '' || data.pass === '' || data.passConfirm === '') {
-        return res.render('sign-up', { err: 'Veuillez compléter tous les champs', csrfToken: req.csrfToken() });
+        return res.render('sign-up', { err: 'Please complete all fields', csrfToken: req.csrfToken() });
     }
     if (data.pass !== data.passConfirm) {
-        return res.render('sign-up', { err: 'Pas le même mot de passe', csrfToken: req.csrfToken() });
+        return res.render('sign-up', { err: 'Passwords does not match.', csrfToken: req.csrfToken() });
     }
 
     User.register(new User({ email:data.mail, username:data.pseudo }), data.pass, function (err, user) {
         if (err) {
             console.log(err);
-            return res.render('sign-up', { csrfToken: req.csrfToken(), err : 'Compte déjà existant' });
+            return res.render('sign-up', { csrfToken: req.csrfToken(), err : 'Existing account' });
         }
         let wallet = new Wallet({
             currency: 'euros',
