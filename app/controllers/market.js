@@ -16,6 +16,7 @@ exports.index = (req, res) => {
 		"ETH",
 		"ETC",
 		"BCH",
+//		"TRTL",
 //		"BSV",
 //		"TUBE",
 //		"ETHB",
@@ -36,6 +37,8 @@ exports.index = (req, res) => {
 
   Promise.all(
     cryptos.map(async crypto => {
+      console.log('Fetch %s data', crypto);
+      
       const pricePromise = axios.get(
         `${API_URL}/price?e=Kraken&fsym=${crypto}&tsyms=EUR,USD`
       );
@@ -113,9 +116,10 @@ var myChart = new Chart(ctx, {
           .fromNow()
       });
 /**/      data.sort((a, b) => {
+	
         const indexA = cryptos.indexOf(a.pair.substr(0, 3));
         const indexB = cryptos.indexOf(b.pair.substr(0, 3));
-        console.log(indexA,indexB);
+        console.log('indexA: %s, indexB: %s', a.pair.substr(0, 3), b.pair.substr(0, 3));
         return indexA === indexB ? 0 : indexA < indexB ? -1 : 1;
       });
 /**/    })
@@ -126,6 +130,9 @@ var myChart = new Chart(ctx, {
       data,
       isConnected
     });
+  })
+  .catch(e => {
+  	console.log('market.js Promise.all catch', e);
   });
 };
 
