@@ -4,8 +4,11 @@ body {
 }
 
 .header {
+  position: sticky;
+  top: 0;
   padding-bottom: 20px;
   border-bottom: 1px solid #e5e5e5;
+  z-index: 10;
 }
 
 /* Make the masthead heading the same height as the navigation */
