@@ -155,7 +155,7 @@ exports.pair = async (req, res) => {
   const timeHistory = histo.reduce((acc, value) => {
     const { time } = value;
     lastUpdate = time;
-    const formatedTime = moment.unix(time).format("hh:mm");
+    const formatedTime = moment.unix(time).format("HH:mm");
     acc.push(`'${formatedTime}'`);
     return acc;
   }, []);
