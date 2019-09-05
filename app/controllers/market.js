@@ -209,12 +209,12 @@ var myChart = new Chart(ctx, {
     return crypto.currency === pairFrom;
   });
   balanceCurrency =
-    balanceCurrency !== undefined ? balanceCurrency.currency_qty : 0;
+    balanceCurrency !== undefined ? balanceCurrency.currency_qty : 0.0;
   const currencyList = [wallet.currency_qty, balanceCurrency];
 
   const data = {
     balanceCurrency: currencyList[1],
-    balanceEUR: currencyList[0].toFixed(6),
+    balanceEUR: currencyList[0].toFixed(2),
     currency: pairFrom,
     pair: `${pairFrom}-EUR`,
     id: `${pairFrom}EUR`,
@@ -227,7 +227,7 @@ var myChart = new Chart(ctx, {
       .startOf("minute")
       .fromNow()
   };
-console.log(data.currencyList);
+console.log(data);
   const isConnected = typeof req.session.id !== "undefined";
   res.render("trade", {
     data,
@@ -237,11 +237,13 @@ console.log(data.currencyList);
 };
 
 exports.trade = function(req, res) {
+  const src_value = parseFloat(req.body.src_value);
+  const dst_value = parseFloat(req.body.dst_value);
   let trade = new Trading({
     src_currency: req.body.src_currency,
-    src_value: req.body.src_value,
+    src_value: req.body.src_currency == "EUR" ? src_value.toFixed(2) : src_value,
     dst_currency: req.body.dst_currency,
-    dst_value: req.body.dst_value,
+    dst_value: req.body.dst_currency == "EUR" ? dst_value.toFixed(2) : dst_value,
     date: Date.now()
   });
 
