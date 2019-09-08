@@ -6,6 +6,8 @@
 module.exports = {
   db: 'mongodb://localhost/crypto_db_dev',
   mode: 'development',
+  port: 3009,
+  host: '192.168.1.70',
 /**
   facebook: {
     clientID: 'APP_ID',
