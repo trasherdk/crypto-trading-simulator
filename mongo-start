@@ -1,4 +1,119 @@
 #!/bin/sh
 
-/opt/mongodb/bin/mongod --config /opt/config/mongodb \
-## --upgrade \ ##runs a database upgrade option if needed \
+CWD=$(realpath $(dirname $0))
+[ "$CWD" = "." ] && CWD=$(pwd)
+
+LOGFILE=$CWD/logs/mongodb.log
+PIDFILE=$CWD/logs/mongodb.pid
+MONGOPID=""
+
+mongodb_usage() {
+	echo
+	echo "${YELLOW} Usage: ${WHITE}$(basename $0) ${CYAN}[ start | stop | status | help ]${RESTORE}"
+	echo
+}
+
+mongodb_is_running() {
+	
+	local MONGOPID=$(pgrep mongod || { echo 0; })
+#	[ ! "${MONGOPID}" = "0" ] \
+#		&& {
+#			#echo "${WHITE}MongoDB is running PID:${GREEN} ${MONGOPID} ${RESTORE}"
+#			DONOTHING=${MONGOPID}
+#		} \
+#		|| {
+#			#echo "${RED}MongoDB is not running${RESTORE}"
+#			return 1
+#		}
+	echo ${MONGOPID}
+	[ -f /proc/${MONGOPID}/exe 2>&1 > /dev/null ] \
+		&& {
+			return 0
+		} \
+		|| {
+			return 1
+		}
+}
+
+mongodb_stop() {
+	MONGOPID=$(mongodb_is_running)
+
+	if [ ${MONGOPID} -ne 0 ]; then
+		echo "${WHITE}Found pid ${GREEN}[${MONGOPID}]${WHITE} at /proc/${MONGOPID}/exe${RESTORE}"
+		echo -n "${YELLOW}Shutting server down:  "
+		CNT=0
+		while [ -f /proc/${MONGOPID}/exe ]
+		do
+  		((CNT++))
+  		echo -ne "\b${RED}${CNT}${RESTORE}"
+			kill -INT ${MONGOPID}
+  		sleep 1
+  	done
+		echo -e "\b${GREEN} OK ${RESTORE}"
+	else
+		echo "${WHITE}mongod server is${RED} NOT ${WHITE}running${RESTORE}"
+	fi
+}
+
+mongodb_start() {
+	MONGOPID=$(mongodb_is_running)
+
+	if [ ${MONGOPID} -eq 0 ]; then
+		echo "${WHITE}mongod server is${RED} NOT ${WHITE}running${RESTORE}"
+		echo -n "${YELLOW}Starting server up:${RESTORE}"
+
+		/opt/mongodb/bin/mongod \
+			--dbpath $CWD/data \
+			--bind_ip 192.168.1.70,localhost \
+			--fork \
+			--pidfilepath $PIDFILE \
+			--logpath  $LOGFILE 2>&1 > /dev/null \
+			|| {
+				echo -e "\n${RED} Start failed. ${RESTORE}\n"
+				return 1
+			}
+
+		CNT=0
+		while [ "$(mongodb_is_running)" -eq 0 ]
+		do
+	  		((CNT++))
+	  		echo -ne "\b${RED}${CNT}${RESTORE}"
+	  		sleep 1
+	  	done
+		echo -e "\b${GREEN} OK ${RESTORE}"
+	else
+		echo "${WHITE}Found pid ${GREEN}[${MONGOPID}]${WHITE} at /proc/${MONGOPID}/exe"
+	fi
+}
+
+case "$1" in
+	'start')
+		mongodb_start
+		;;
+	'stop')
+		mongodb_stop
+		;;
+	'status')
+		MONGOPID=$(mongodb_is_running)
+		[ "${MONGOPID}" -ne 0  ] \
+			&& {
+				echo "${WHITE}MongoDB is running PID:${GREEN} ${MONGOPID} ${RESTORE}"
+			} \
+			|| {
+				echo "${RED}MongoDB is not running${RESTORE}"
+			}
+		;;
+	'help')
+		mongodb_usage
+		;;
+	*)
+		[ $# -eq 0 ] \
+		&& {
+			mongodb_start
+		} \
+		|| {
+			echo -e "\n${RED} Unknown option: ${WHITE} $1 ${RESTORE}\n"
+			mongodb_usage
+		}
+		;;
+esac
