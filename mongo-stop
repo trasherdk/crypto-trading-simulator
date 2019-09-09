@@ -15,8 +15,15 @@ mongodb_usage() {
 
 mongodb_is_running() {
 	
-	MONGOPID=$(pgrep mongod || { echo "pgrep failed."; return 0; })
-	[ "${MONGOPID}" = "" ] && { echo "PID is ${MONGOPID}"; } || { echo "Not running"; exit 1; }
+	MONGOPID=$(pgrep mongod || { echo "pgrep failed."; echo 0; })
+	[ ! "${MONGOPID}" = "0" ] \
+		&& {
+			echo "PID is ${MONGOPID}"
+		} \
+		|| {
+			echo "Not running"
+			exit 1
+		}
 
 	[ ${MONGOPID} -a -f /proc/${MONGOPID}/exe 2>&1 > /dev/null ] \
 		&& {
