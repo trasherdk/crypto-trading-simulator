@@ -65,7 +65,7 @@ function connect () {
   mongoose.connect(config.db, options, function(error){
 
     if ( error !== null)
-  	  console.log("Connect Error", error);
+      console.log("Connect Error", error);
 
   });
 
