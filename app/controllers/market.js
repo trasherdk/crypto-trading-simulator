@@ -116,7 +116,7 @@ var myChart = new Chart(ctx, {
           .fromNow()
       });
 /**/      data.sort((a, b) => {
-	
+
         const indexA = cryptos.indexOf(a.pair.substr(0, 3));
         const indexB = cryptos.indexOf(b.pair.substr(0, 3));
         console.log('indexA: %s, indexB: %s', a.pair.substr(0, 3), b.pair.substr(0, 3));
