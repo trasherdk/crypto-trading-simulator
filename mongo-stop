@@ -1,0 +1,93 @@
+#!/bin/sh
+
+CWD=$(realpath $(dirname $0))
+[ "$CWD" = "." ] && CWD=$(pwd)
+
+LOGFILE=$CWD/logs/mongodb.log
+PIDFILE=$CWD/logs/mongodb.pid
+
+mongodb_usage() {
+	echo
+	echo "${YELLOW} Usage: ${WHITE}$(basename $0) ${CYAN}[ start | stop | status | help ]${RESTORE}"
+	echo
+}
+
+mongodb_is_running() {
+	
+	MONGOPID=$(pgrep mongod || 0)
+	echo "MONGOPID = ${MONGOPID}"
+	
+	[ ${MONGOPID} -a -f /proc/${MONGOPID}/exe ] \
+		&& {
+			echo "${WHITE}Found pid ${GREEN}${MONGOPID}${WHITE} at $(ls -1 /proc/${MONGOPID}/exe)"
+			return 0
+		} \
+		|| {
+			echo "${WHITE}mongod server is${RED} NOT ${WHITE}running${RESTORE}"
+			return 1
+		}
+}
+
+mongodb_stop() {
+
+	if [ $(mongodb_is_running) -gt 0 ]; then
+		echo -n "${YELLOW}Shutting server down:  "
+		CNT=0
+		while [ -f /proc/${pid}/exe ]
+		do
+	  		((CNT++))
+	  		echo -ne "\b${RED}${CNT}${RESTORE}"
+			pkill -INT ${pid}
+	  		sleep 1
+	  	done
+		echo -e "\b${GREEN} OK ${RESTORE}"
+	fi
+}
+
+mongodb_start() {
+	if [ $(mongodb_is_running) -eq 0 ]; then
+		echo -n "${YELLOW}Starting server up:  "
+
+		/opt/mongodb/bin/mongod \
+			--dbpath $CWD/data \
+			--bind_ip 192.168.1.70,localhost \
+			--fork \
+			--pidfilepath $PIDFILE \
+			--logpath  $LOGFILE
+
+		CNT=0
+		while [ ! -f /proc/${pid}/exe ]
+		do
+	  		((CNT++))
+	  		echo -ne "\b${RED}${CNT}${RESTORE}"
+	  		sleep 1
+	  	done
+		echo -e "\b${GREEN} OK ${RESTORE}"
+	fi
+}
+
+
+case "$1" in
+	'start')
+		mongodb_start
+		;;
+	'stop')
+		mongodb_stop
+		;;
+	'status')
+		mongodb_is_running
+		;;
+	'help')
+		mongodb_usage
+		;;
+	*)
+		[ $# -eq 0 ] \
+		&& {
+			mongodb_stop
+		} \
+		|| {
+			echo "${RED} Unknown option: ${WHITE} $1 ${RESTORE}"
+			mongodb_usage
+		}
+		;;
+esac
