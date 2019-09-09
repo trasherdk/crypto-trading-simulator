@@ -22,7 +22,8 @@ const session = require('express-session');
 const config = require('./config');
 
 const models = join(__dirname, 'app/models');
-const port = process.env.PORT || 3009;
+const port = process.env.PORT || config.port || 3009;
+const host = process.env.HOST || config.host || '0.0.0.0';
 
 const app = express();
 const connection = connect();
@@ -49,8 +50,8 @@ require('./config/routes')(app, passport);
 
 function listen () {
   if (app.get('env') === 'test') return;
-  app.listen(port);
-  console.log('Express app started on port ' + port);
+  app.listen(port, host);
+  console.log('Express app started on %s:%s ', host, port);
 }
 
 function connect () {
@@ -58,15 +59,16 @@ function connect () {
   	keepAlive: 1,
   	useNewUrlParser: true
   };
-  
+
   console.log("connect()", options, config);
-  
+
   mongoose.connect(config.db, options, function(error){
-  	
-  	console.log("Connect Error", error);
-  	
+
+    if ( error !== null)
+  	  console.log("Connect Error", error);
+
   });
-  
+
   return mongoose.connection;
 }
 
