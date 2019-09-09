@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 CWD=$(realpath $(dirname $0))
 [ "$CWD" = "." ] && CWD=$(pwd)
