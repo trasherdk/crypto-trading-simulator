@@ -148,7 +148,7 @@ exports.pair = async (req, res) => {
   const {
     data: { Data: histo }
   } = await axios.get(
-    `${API_URL}/histohour?e=Kraken&fsym=${pairFrom}&tsym=${pairTo}&limit=36`
+    `${API_URL}/histohour?e=Kraken&fsym=${pairFrom}&tsym=${pairTo}&limit=48`
   );
 
   let lastUpdate = 0;
@@ -283,8 +283,10 @@ exports.trade = function(req, res) {
       });
       break;
     case "buy":
-      Wallet.findById(req.session.walletId, function(err, wallet) {
-        if (wallet.currency_qty >= req.body.src_value) {
+      Wallet.findById(req.session.walletId, (err, wallet) => {
+        let currency_qty = parseFloat(wallet.currency_qty).toFixed(2);
+        let src_value = parseFloat(req.body.src_value).toFixed(2);
+        if (currency_qty >= src_value) {
           wallet.update({ $inc: { currency_qty: -req.body.src_value } }).exec();
 
           let crypto = wallet.cryptos.find(function(crypto) {
