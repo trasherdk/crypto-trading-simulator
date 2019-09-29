@@ -50,12 +50,12 @@ block content
                   if (trade.dst_currency === "EUR")
                     th.align-middle.text-danger #{trade.src_currency}
                     th.align-middle #{trade.src_value}
-                    th.align-middle #{trade.dst_value / trade.src_value} #{trade.dst_currency} <!-- SELL -->
+                    th.align-middle #{trade.price} #{trade.dst_currency} <!-- SELL -->
                     th.align-middle #{trade.dst_value} #{trade.dst_currency}
                   else
                     th.align-middle.text-success #{trade.dst_currency}
                     th.align-middle #{trade.dst_value}
-                    th.align-middle #{trade.src_value / trade.dst_value} #{trade.src_currency}  <!-- BUY -->
+                    th.align-middle #{trade.price} #{trade.src_currency}  <!-- BUY -->
                     th.align-middle #{trade.src_value} #{trade.src_currency}
                   th.align-middle #{trade.date}
 

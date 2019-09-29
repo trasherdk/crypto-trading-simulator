@@ -28,6 +28,18 @@ exports.index = (req, res) => {
       .exec(function(err, user) {
         const isConnected = typeof req.session.id !== "undefined";
         wallet.currency_qty = wallet.currency_qty.toFixed(2);
+        user.trading.map((data)=>{
+          //console.log(data)
+          if (data.dst_currency == "EUR") {
+            data.dst_value = parseFloat(data.dst_value).toFixed(2)
+            data.src_value = parseFloat(data.src_value).toFixed(12)
+            data.price = parseFloat(data.dst_value / data.src_value).toFixed(2)
+          } else {
+            data.src_value = parseFloat(data.src_value).toFixed(2)
+            data.dst_value = parseFloat(data.dst_value).toFixed(12)
+            data.price = parseFloat(data.src_value / data.dst_value).toFixed(2)
+          }
+        })
         res.render("wallet", {
           wallet,
           trading: user.trading.sort(compare),
