@@ -57,7 +57,8 @@ function listen () {
 function connect () {
   const options = {
   	keepAlive: 1,
-  	useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
   };
 
   console.log("connect()", options, config);

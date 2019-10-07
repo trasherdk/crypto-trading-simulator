@@ -144,7 +144,10 @@ exports.pair = async (req, res) => {
 
   const {
     data: { EUR: eurprice, USD: usdprice }
-  } = await axios.get(`${API_URL}/price?e=Kraken&fsym=${pairFrom}&tsyms=${pairTo},USD`);
+  } = await axios.get(
+    `${API_URL}/price?e=Kraken&fsym=${pairFrom}&tsyms=${pairTo},USD`
+  );
+
   const {
     data: { Data: histo }
   } = await axios.get(
@@ -159,11 +162,13 @@ exports.pair = async (req, res) => {
     acc.push(`'${formatedTime}'`);
     return acc;
   }, []);
+
   const valuesHistory = histo.reduce((acc, value) => {
     const { close } = value;
     acc.push(close);
     return acc;
   }, []);
+
   const chartScript = `var ctx = document.getElementById('${pairFrom}EUR');
 var myChart = new Chart(ctx, {
     type: 'line',
