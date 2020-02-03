@@ -46,7 +46,7 @@ require('./config/passport')(passport);
 require('./config/express')(app, passport);
 require('./config/routes')(app, passport);
 
-//console.log(connection);
+// console.log(connection);
 
 function listen () {
   if (app.get('env') === 'test') return;
@@ -56,17 +56,17 @@ function listen () {
 
 function connect () {
   const options = {
-  	keepAlive: 1,
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  };
+  keepAlive: 1,
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+};
 
-  console.log("connect()", options, config);
+  console.log('connect()', options, config);
 
-  mongoose.connect(config.db, options, function(error){
+  mongoose.connect(config.db, options, function (error) {
 
-    if ( error !== null)
-      console.log("Connect Error", error);
+    if (error !== null)
+      console.log('Connect Error', error);
 
   });
 
