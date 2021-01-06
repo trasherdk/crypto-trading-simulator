@@ -20,7 +20,7 @@
  "main": "server.js",
  "dependencies": {
   "acorn": "^6.4.1",
-  "axios": "^0.19.2",
+  "axios": "^0.21.1",
   "bl": ">=2.2.1",
   "bluebird": "^3.5.5",
   "body-parser": "^1.19.0",
