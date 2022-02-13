@@ -56,14 +56,14 @@ function listen () {
 
 function connect () {
   const options = {
-  keepAlive: 1,
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-};
+    keepAlive: 1,
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  };
 
   console.log('connect()', options, config);
 
-  mongoose.connect(config.db, options, function (error) {
+  mongoose.connect(config.db, options, (error) => {
 
     if (error !== null)
       console.log('Connect Error', error);
