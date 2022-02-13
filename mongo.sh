@@ -3,13 +3,16 @@
 CWD=$(realpath $(dirname $0))
 [ "$CWD" = "." ] && CWD=$(pwd)
 
-
+MONGO=$(which mongod)
 LOGFILE=$CWD/logs/mongodb.log
 PIDFILE=$CWD/logs/mongodb.pid
-DBPATH=/home/crypto/local/trading/crypto-trading-simulator/data
+DBPATH=$CWD/data
+
+[ -d $CWD/logs ] || mkdir $CWD/logs
+[ -d $CWD/data ] || mkdir $CWD/data
 
 pid=$(pgrep mongod)
-echo "cat return $? with pid: ${pid}"
+echo "Check return $? with pid: ${pid}"
 
 if [ "${pid}" != "" -a -f /proc/${pid}/exe ]; then
 	echo -e "${RED}MongoDB is allready running.${RESTORE}\n"
@@ -18,9 +21,9 @@ fi
 
 echo -e "${GREEN}Starting MongoDB.${RESTORE}\n"
 
-/opt/mongodb/bin/mongod \
+${MONGO} \
 	--dbpath ${DBPATH} \
-	--bind_ip 192.168.1.70,localhost \
+	--bind_ip localhost \
 	--fork \
 	--pidfilepath $PIDFILE \
-	--logpath  $LOGFILE
+	--logpath $LOGFILE

@@ -3,9 +3,10 @@
 CWD=$(realpath $(dirname $0))
 [ "$CWD" = "." ] && CWD=$(pwd)
 
+MONGO=$(which mongod)
 LOGFILE=$CWD/logs/mongodb.log
 PIDFILE=$CWD/logs/mongodb.pid
-DBPATH=/home/crypto/local/trading/crypto-trading-simulator/data
+DBPATH=$CWD/data
 MONGOPID=""
 
 mongodb_usage() {
@@ -15,7 +16,7 @@ mongodb_usage() {
 }
 
 mongodb_is_running() {
-	
+
 	local MONGOPID=$(pgrep mongod || { echo 0; })
 #	[ ! "${MONGOPID}" = "0" ] \
 #		&& {
@@ -26,7 +27,9 @@ mongodb_is_running() {
 #			#echo "${RED}MongoDB is not running${RESTORE}"
 #			return 1
 #		}
-	echo ${MONGOPID}
+
+	echo "${MONGOPID}"
+
 	[ -f /proc/${MONGOPID}/exe 2>&1 > /dev/null ] \
 		&& {
 			return 0
@@ -37,7 +40,7 @@ mongodb_is_running() {
 }
 
 mongodb_stop() {
-	MONGOPID=$(mongodb_is_running)
+	local MONGOPID=$(mongodb_is_running)
 
 	if [ ${MONGOPID} -ne 0 ]; then
 		echo "${WHITE}Found pid ${GREEN}[${MONGOPID}]${WHITE} at /proc/${MONGOPID}/exe${RESTORE}"
@@ -54,18 +57,21 @@ mongodb_stop() {
 	else
 		echo "${WHITE}mongod server is${RED} NOT ${WHITE}running${RESTORE}"
 	fi
+	if [ -f ${PIDFILE} ]; then
+		rm ${PIDFILE}
+	fi
 }
 
 mongodb_start() {
-	MONGOPID=$(mongodb_is_running)
+	local MONGOPID=$(mongodb_is_running)
 
 	if [ ${MONGOPID} -eq 0 ]; then
 		echo "${WHITE}mongod server is${RED} NOT ${WHITE}running${RESTORE}"
 		echo -n "${YELLOW}Starting server up:${RESTORE}"
 
-		/opt/mongodb/bin/mongod \
+		${MONGO} \
 			--dbpath ${DBPATH} \
-			--bind_ip 192.168.1.70,localhost \
+			--bind_ip localhost \
 			--fork \
 			--pidfilepath $PIDFILE \
 			--logpath  $LOGFILE 2>&1 > /dev/null \
@@ -77,10 +83,10 @@ mongodb_start() {
 		CNT=0
 		while [ "$(mongodb_is_running)" -eq 0 ]
 		do
-	  		((CNT++))
-	  		echo -ne "\b${RED}${CNT}${RESTORE}"
-	  		sleep 1
-	  	done
+      ((CNT++))
+      echo -ne "\b${RED}${CNT}${RESTORE}"
+      sleep 1
+	  done
 		echo -e "\b${GREEN} OK ${RESTORE}"
 	else
 		echo "${WHITE}Found pid ${GREEN}[${MONGOPID}]${WHITE} at /proc/${MONGOPID}/exe"
