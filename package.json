@@ -36,7 +36,7 @@
     "express": "^4.17.2",
     "express-session": "^1.17.1",
     "method-override": "~2.3.5",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "moment": "^2.29.1",
     "mongoose": "^5.10.2",
     "mongoose-user": "~0.0.1",
